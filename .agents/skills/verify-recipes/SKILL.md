@@ -955,6 +955,13 @@ d shell <box> -- cat /run/discobox/provision.json
   diff the two. It catches what feature order changes: a package's conffile
   written before the package, `ldconfig` from a later install undoing a link,
   apt resolving an alternative another feature used to satisfy.
+- A login harness's own steps (its `install-cli.sh`) without configuring it
+  (`new -H claude-code` is refused until it is): make a `-H shell` box, which
+  provisions every platform feature, then `tar -cz -C harness/<id>
+  install-cli.sh check-cli.sh | d shell <box> -- sudo sh -c 'mkdir /tmp/h &&
+  tar -xz -C /tmp/h && cd /tmp/h && ./install-cli.sh'`. To make it a boxd-like
+  box, link `/usr/local/bin/{node,npm,<cli>}` into a `/home/boxd` at 0750 and
+  stop/start it: the steps' checks see the drift at the next boot.
 - `admin harness configure <id>` in a tmux pane reaches a login harness's CLI
   in a box of its image without credentials; answer `n` to leave it.
 
