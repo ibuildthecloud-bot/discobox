@@ -1,7 +1,9 @@
 # 26-11-02-023 — A machine sandbox wires its declared volumes from its own data and cache roots
 
 - **Status**: Accepted
-- **Date**: 2026-11-02
+- **Date**: 2026-11-02; amended 2026-11-03, before anything shipped against
+  it: a machine's existing content at a data path is moved into its volume
+  and bound, not overlaid (§1)
 - **Amends**:
   [0126](0126-a-sandbox-does-not-share-a-host-or-a-filesystem-with-its-pool.md)
   §2's "where it has none, the declared-volume mechanism does not apply at
@@ -52,9 +54,16 @@ on a machine:
 A Linux machine sandbox has both roots, as directories on its own disk. Every
 declared volume is wired from them exactly as in a container: the same
 `volumeDir` layout (data per target, cache partitioned by uid under
-`.users/<uid>`, a `scope: shared` path at the cache root), a bind for an empty
-target, an overlay for a data target the box already has content at, the
-owner and mode the declaration names, parents before children.
+`.users/<uid>`, a `scope: shared` path at the cache root), the owner and mode
+the declaration names, parents before children.
+
+Every path is a bind on a machine, never an overlay. A data path the machine
+already has content at, the first time it is wired, has that content moved
+into its volume directory and is then bound: the disk is the box's own, not
+an image shared with other boxes, so there is no lower layer to keep. Each
+entry is moved by itself, so a boot cut short leaves the rest to move at the
+next one, and the layout is recorded only once all of it has moved. A
+container keeps ADR 0107's rule: an overlay over what its image ships.
 
 The cache stays private to the box (0126 §2 stands): nothing outside the
 machine shares it. Its uid partition is kept anyway, so the layout is one
@@ -98,10 +107,19 @@ reason to.
 
 A machine provisioned before this decision is wired at its next start. Its
 existing content at a declared data path — the home, `/var/lib/docker` — is
-non-empty, so it is overlaid, not hidden: it stays as the lower layer and new
-writes go to `/.discobox/data`.
+moved into `/.discobox/data` and bound back (§1), so nothing it held is
+hidden.
 
 ## Alternatives rejected
+
+- **Overlay a machine's existing content, as a container overlays what its
+  image ships.** The first rule written here. Rejected because a boxd
+  machine's `/var/lib/docker` and `/var/lib/containerd` always hold content
+  by then — its own dockerd ran on the boot before the placement — and
+  Docker's `overlay2` driver and containerd's overlayfs snapshotter refuse a
+  data root that is itself on overlayfs: Docker in the sandbox would stop
+  working. A bind over the content instead would hide it, and with it an
+  existing machine's home.
 
 - **Only create each declared path, owned as declared, without mounting.**
   The smallest fix for `/var/lib/claude-code`. Rejected because it keeps two
@@ -137,6 +155,6 @@ writes go to `/.discobox/data`.
 - The machine runtime's first placement restarts the machine before the agent
   starts, adding one guest boot to a machine sandbox's create.
 - The sandbox's `discobox` skill and the verify recipes describe one layout.
-- A machine's `/.discobox/data` and the disk content it overlays both hold
-  data; clearing a box's cache and reasoning about its disk use account for
-  the lower layer a pre-existing machine keeps.
+- A machine's first wiring of a populated path moves it within the disk:
+  a rename per entry on the one filesystem, a copy only where the path is on
+  another.
