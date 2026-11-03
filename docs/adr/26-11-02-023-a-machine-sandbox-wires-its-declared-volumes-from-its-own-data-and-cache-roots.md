@@ -1,6 +1,6 @@
 # 26-11-02-023 — A machine sandbox wires its declared volumes from its own data and cache roots
 
-- **Status**: Proposed
+- **Status**: Accepted
 - **Date**: 2026-11-02
 - **Amends**:
   [0126](0126-a-sandbox-does-not-share-a-host-or-a-filesystem-with-its-pool.md)
