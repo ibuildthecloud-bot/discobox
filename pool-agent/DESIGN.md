@@ -946,7 +946,7 @@ flowchart LR
     create["CreateSandbox"] --> inst["machine named by the sandbox ID\nfrom the driver's base\n(isolated, on the pool's network,\nfenced to the pool)"]
     inst --> start["startLocked: engine.Start"]
     start --> place["place: sandbox.json,\nagentlayer.Archive, then\ndiscobox-provision apply"]
-    place -->|"placed before with something else"| restart["restart the machine"]
+    place -->|"never placed (nothing applied),\nor placed before with something else"| restart["restart the machine"]
     restart --> place
     place --> boot["finishBoot: wait at the URL,\ndeliver runtime config"]
 ```
@@ -961,11 +961,19 @@ flowchart LR
   otherwise — made before the fence, or by hand — is refused rather than run
   (`fenced`).
 - **Every start places**: sandbox.json at `/etc/discobox`, the agent layer
-  when the pool's record does not say it is there, the units and the pins, then
-  runs `discobox-provision apply` through the provisioner. A machine keeps its
+  when the pool's record does not say it is there, the units
+  (`agentlayer.MachineUnits`: the agent's, and the drop-in that runs
+  `discobox-wire.service` on a machine) and the pins, then runs
+  `discobox-provision apply` through the provisioner. A machine keeps its
   disk, and its agent starts at boot from what was placed before, so when what
   is placed moved — pins, the agent, or the bootstrap — the machine is
   restarted onto it: a moved pin restarts, never rebuilds (ADR 26-10-24-953 §1).
+  **The first placement** in a machine (the pool's record names no placement
+  in this instance) applies nothing and restarts it: the machine booted
+  before its bootstrap was placed, its provider's dockerd and containerd with
+  it, and its declared volumes are wired only by the unit at a boot, before
+  them ([ADR 26-11-02-023](../docs/adr/26-11-02-023-a-machine-sandbox-wires-its-declared-volumes-from-its-own-data-and-cache-roots.md)
+  §3). That is one more guest boot in a create.
 - **The agent listens where the driver's service says**
   (ADR 26-10-27-345 §2): the instance's TCP `Service.Listen` is written into
   sandbox.json as the agent's listen address, since the driver gives an
@@ -990,6 +998,9 @@ flowchart LR
   tree nor a machine is not found. The
   unarchiving create starts the same machine. **Delete** returns only once the
   driver no longer has the machine (ADR 0022 §3).
+- **Its volumes are its disk's**: `/.discobox/data` and `/.discobox/cache`,
+  directories the wiring makes, in a container's layout, shared with
+  nothing (ADR 26-11-02-023 §1).
 - **Clear-cache** stops nothing, since no machine shares a cache: it empties
   the proxy's response cache and asks each running sandbox's agent to empty
   its own (`cache/clear`, the pool-only `cache-clear` scope). A stopped

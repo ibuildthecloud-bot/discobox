@@ -12,11 +12,11 @@ import (
 	"github.com/discobox-ai/discobox/sandbox-agent/runuser"
 )
 
-// A sandbox with nothing to wire (a VM guest, ADR 26-10-09-143 §1) is provisioned
-// from its bootstrap alone: the working root, the home skeleton, the git
+// A box Wire did not run on (an init that does not run its unit, ADR
+// 26-10-09-143 §1) is provisioned from its bootstrap alone: the working root, the home skeleton, the git
 // identity and the direnv whitelist are all seeded for its user, and nothing is
-// wired -- it has no primary volumes to wire from, and its sources arrive
-// through the intake rather than as binds.
+// wired -- it is already running, and its sources arrive through the intake
+// rather than as binds.
 func TestProvisionWithoutWiringSeedsWhatTheBootstrapDeclares(t *testing.T) {
 	id := selfIdentity(t)
 	b, git := newFakeGitBooter(nil)

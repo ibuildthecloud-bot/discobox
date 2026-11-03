@@ -1,10 +1,12 @@
-// Package boot provisions a sandbox. Wire is a pool container's boot, run by
-// discobox-wire.service before local-fs.target: it sets up the sandbox user,
-// wires the image-declared data/cache volumes and manifest sources from the
-// primary volumes the pool agent mounted, and binds the config and secrets
-// volumes onto /etc/discobox and /run/discobox/secrets (ADR 0007, ADR
-// 26-10-10-767). Provision is the same provisioning for a sandbox with no
-// volumes to wire, run from the agent's own start (ADR 26-10-09-143 §1).
+// Package boot provisions a sandbox. Wire is a sandbox's boot, a container's
+// or a machine's, run by discobox-wire.service before local-fs.target: it
+// sets up the sandbox user and wires the image-declared data/cache volumes
+// from the box's data and cache roots; in a container it also wires the
+// manifest sources from the primary volumes the pool agent mounted, and binds
+// the config and secrets volumes onto /etc/discobox and /run/discobox/secrets
+// (ADR 0007, ADR 26-10-10-767, ADR 26-11-02-023). Provision is the same
+// provisioning, wiring nothing, for a box Wire did not run on, from the
+// agent's own start (ADR 26-10-09-143 §1).
 package boot
 
 import (
@@ -23,7 +25,9 @@ import (
 var sandboxPaths = sandboxpath.For(platform.Current())
 
 const (
-	// The pool agent mounts these primary volumes at fixed paths.
+	// The pool agent mounts these primary volumes at fixed paths in a
+	// container. A machine has the data and cache roots alone, as
+	// directories on its own disk (ADR 26-11-02-023 §1).
 	dataMountPath    = "/.discobox/data"
 	cacheMountPath   = "/.discobox/cache"
 	configMountPath  = "/.discobox/config"
@@ -48,6 +52,11 @@ const (
 // volume is rebound onto /etc/discobox. A variable so a test does not read the
 // manifest of whatever sandbox it happens to run in.
 var manifestPath = path.Join(configMountPath, manifestName)
+
+// machineManifestPath is a machine's bootstrap, which its pool placed where
+// the agent reads it; a machine has no config volume. A variable for the
+// reason manifestPath is.
+var machineManifestPath = path.Join(etcDiscobox, manifestName)
 
 // cacheUsersDir is the level at which the pool cache is partitioned by user,
 // below which each partition mirrors target paths exactly as the data volume

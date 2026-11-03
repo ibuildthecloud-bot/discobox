@@ -2,10 +2,13 @@ package boot
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
+	"io/fs"
 	"os"
 	"path/filepath"
 	"strings"
+	"syscall"
 
 	"github.com/discobox-ai/discobox/harness"
 	"github.com/discobox-ai/discobox/pkg/sandboxconfig"
@@ -73,13 +76,21 @@ func (b *booter) wireVolume(v harness.ResolvedVolume, id identity) error {
 	if err := mkdirAllOwned(v.Path, id.home, id.uid, id.gid); err != nil {
 		return err
 	}
-	nonEmpty, err := dirNonEmpty(v.Path)
-	if err != nil {
-		return err
-	}
-	layout, err := decideLayout(v.Kind, dir, layoutRecordPath(v), nonEmpty)
-	if err != nil {
-		return err
+	layout := layoutBind
+	if b.ownDisk {
+		if v.Kind == harness.VolumeData {
+			if err := b.moveIn(v.Path, dir, layoutRecordPath(v)); err != nil {
+				return err
+			}
+		}
+	} else {
+		nonEmpty, err := dirNonEmpty(v.Path)
+		if err != nil {
+			return err
+		}
+		if layout, err = decideLayout(v.Kind, dir, layoutRecordPath(v), nonEmpty); err != nil {
+			return err
+		}
 	}
 	if layout == layoutOverlay {
 		upper, work := overlayDirs(dir)
@@ -114,6 +125,59 @@ func (b *booter) wireVolume(v harness.ResolvedVolume, id identity) error {
 		return err
 	}
 	return applyOwnership(v.Path, v)
+}
+
+// moveIn makes a machine's data volume of what its disk already holds at
+// target, the first time it is wired, so the bind that follows shows it
+// rather than hiding it (ADR 26-11-02-023 §1). A machine's disk is its own,
+// not an image other boxes share, so there is no lower layer to keep, and an
+// overlay would put what the box's own dockerd and containerd keep at
+// /var/lib/docker and /var/lib/containerd on overlayfs, which they refuse.
+//
+// volDir is given target's ownership and mode first, so the bound root
+// presents as the path did, then each of target's entries is moved into it.
+// One at a time, so a boot cut short leaves the rest in target for the next
+// to move; the layout is recorded bind only once all have moved, and a
+// recorded volume moves nothing again. A name already in volDir is refused
+// rather than overwritten: it would be the user's. An entry on another
+// filesystem than volDir is moved by mv, which copies it.
+func (b *booter) moveIn(target, volDir, record string) error {
+	layout, ok, err := readLayout(record)
+	if err != nil {
+		return err
+	}
+	if ok {
+		if layout != layoutBind {
+			return fmt.Errorf("%s is recorded wired as an %s, and a machine's volumes are bound", target, layout)
+		}
+		return nil
+	}
+	if err := os.MkdirAll(volDir, 0o755); err != nil {
+		return err
+	}
+	if err := adoptDirIdentity(target, volDir); err != nil {
+		return err
+	}
+	entries, err := os.ReadDir(target)
+	if err != nil {
+		return err
+	}
+	for _, entry := range entries {
+		from, to := filepath.Join(target, entry.Name()), filepath.Join(volDir, entry.Name())
+		if _, err := os.Lstat(to); err == nil {
+			return fmt.Errorf("move %s into its volume: %s is there already", from, to)
+		} else if !errors.Is(err, fs.ErrNotExist) {
+			return err
+		}
+		err := os.Rename(from, to)
+		if errors.Is(err, syscall.EXDEV) {
+			err = b.run("mv", "--no-target-directory", "--", from, to)
+		}
+		if err != nil {
+			return fmt.Errorf("move %s into its volume: %w", from, err)
+		}
+	}
+	return writeLayout(record, layoutBind)
 }
 
 // adoptDirIdentity gives dst the ownership and permission bits of src, so an

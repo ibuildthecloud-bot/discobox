@@ -42,6 +42,7 @@ const machineTestProject = "pool-machine-test"
 // (ADR 26-10-23-551 §4), and the sandbox agents its machines run.
 type machineFixture struct {
 	runtime *MachineSandboxRuntime
+	driver  *agentDriver
 	// owner is the driver as the account's owner, which a test reads the
 	// machines through behind the pool's back.
 	owner  machine.Driver
@@ -88,7 +89,7 @@ func newMachineFixture(t *testing.T) *machineFixture {
 		}
 		agents.closeAll()
 	})
-	return &machineFixture{runtime: r, owner: owner, agents: agents, key: identity}
+	return &machineFixture{runtime: r, driver: driver, owner: owner, agents: agents, key: identity}
 }
 
 func machineCreate(sandboxID string) *workerapimodel.PoolSandboxCreateRequest {
@@ -227,6 +228,44 @@ func TestMachineSandboxLifecycle(t *testing.T) {
 	}
 	if _, err := r.GetSandbox(ctx, "sbx_1"); !errors.Is(err, ErrNotFound) {
 		t.Fatalf("deleted sandbox: %v, want not found", err)
+	}
+}
+
+// A machine boots before anything is placed in it, its provider's services
+// with it, so its first placement starts nothing and restarts it: the wiring
+// runs at that boot, before those services and the agent (ADR 26-11-02-023
+// §3). It is placed the wire unit's machine drop-in. A start after that
+// places and starts the agent at the boot it has, with no restart.
+func TestAMachinesFirstPlacementRestartsItBeforeAnythingRuns(t *testing.T) {
+	f := newMachineFixture(t)
+	ctx := context.Background()
+	r := f.runtime
+	if _, err := r.CreateSandbox(ctx, machineCreate("sbx_9")); err != nil {
+		t.Fatal(err)
+	}
+	if got, want := f.driver.takeEvents("sbx-9"), []string{"boot", "boot", "apply"}; !slices.Equal(got, want) {
+		t.Fatalf("create = %v, want %v: a restart before anything is applied", got, want)
+	}
+	inst, err := f.owner.Instance(ctx, "sbx-9")
+	if err != nil {
+		t.Fatal(err)
+	}
+	guest, err := r.engine.Guest(ctx, inst)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if conf := readMachineFile(t, guest, "/etc/systemd/system/discobox-wire.service.d/discobox-machine.conf"); !strings.Contains(conf, "ConditionPathExists=/etc/discobox/sandbox.json") {
+		t.Fatalf("the wire unit's machine drop-in:\n%s", conf)
+	}
+
+	if err := r.StopSandbox(ctx, "sbx_9", nil); err != nil {
+		t.Fatal(err)
+	}
+	if err := r.StartSandbox(ctx, "sbx_9", nil); err != nil {
+		t.Fatal(err)
+	}
+	if got, want := f.driver.takeEvents("sbx-9"), []string{"boot", "apply"}; !slices.Equal(got, want) {
+		t.Fatalf("start = %v, want %v", got, want)
 	}
 }
 
@@ -439,6 +478,27 @@ func fileTree(t *testing.T, name, content string) io.Reader {
 type agentDriver struct {
 	machine.Driver
 	agents *fakeMachineAgents
+	mu     sync.Mutex
+	// events is each machine's boots and applies, in order.
+	events map[string][]string
+}
+
+func (d *agentDriver) record(name, event string) {
+	d.mu.Lock()
+	defer d.mu.Unlock()
+	if d.events == nil {
+		d.events = map[string][]string{}
+	}
+	d.events[name] = append(d.events[name], event)
+}
+
+// takeEvents is what happened to the machine name since it was last asked.
+func (d *agentDriver) takeEvents(name string) []string {
+	d.mu.Lock()
+	defer d.mu.Unlock()
+	events := d.events[name]
+	delete(d.events, name)
+	return events
 }
 
 func (d *agentDriver) Start(ctx context.Context, inst machine.Instance, opts machine.BootOptions) (machine.Machine, error) {
@@ -446,6 +506,7 @@ func (d *agentDriver) Start(ctx context.Context, inst machine.Instance, opts mac
 	if err != nil {
 		return nil, err
 	}
+	d.record(inst.Name, "boot")
 	return &agentMachine{Machine: m, driver: d, inst: inst}, nil
 }
 
@@ -467,6 +528,7 @@ func (m *agentMachine) Exec(ctx context.Context, req machine.ExecRequest) (machi
 	if !slices.Equal(req.Argv, []string{agentlayer.AgentPath, "provision", "apply"}) {
 		return m.Machine.Exec(ctx, req)
 	}
+	m.driver.record(m.inst.Name, "apply")
 	check := `root="$DISCO_VM_GUEST_ROOT"; test -x "$root` + agentlayer.AgentPath + `" && test -f "$root/etc/discobox/sandbox.json" && cat "$root/etc/discobox/sandbox.json"`
 	process, err := m.Machine.Exec(ctx, machine.ExecRequest{Argv: []string{"sh", "-c", check}})
 	if err != nil {

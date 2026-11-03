@@ -618,6 +618,10 @@ type booter struct {
 	// statusPath is the box's provision.json, which says which features are
 	// off; empty turns none off.
 	statusPath string
+	// ownDisk says the box's disk is its own, a machine's rather than a
+	// container's image layer: what is already at a data path is moved into
+	// its volume and bound, never overlaid (moveIn).
+	ownDisk bool
 }
 
 // off reports whether provisioning turned feature off, so a boot step that

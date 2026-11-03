@@ -443,6 +443,14 @@ user waits on every single start.
   parent's. Write it the way `provision/records.go` writes a record (temp
   file synced, renamed, directory synced): boot refuses a record it cannot
   read rather than guess, so an empty one left by a crash fails every boot.
+- **A machine's data volume is never an overlay** (`booter.ownDisk`,
+  ADR 26-11-02-023 §1). What its disk holds at a data path is moved into the
+  volume (`moveIn`) and bound, once, before the layout is recorded. An overlay
+  there puts boxd's `/var/lib/docker` and `/var/lib/containerd` on overlayfs,
+  which Docker's `overlay2` and containerd's snapshotter refuse; a bind over
+  the content hides it, an existing machine's home with it. Never let
+  `moveIn` overwrite a name already in the volume: after its first move,
+  everything there is the user's.
 - **A test of guest-path code hands it slash paths**
   (`filepath.ToSlash(t.TempDir())`, joined with `path`). `boot` splits
   paths with `path`, which finds no directory in a `filepath.Join` result on

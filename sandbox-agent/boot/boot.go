@@ -6,6 +6,7 @@ import (
 	"io/fs"
 	"log/slog"
 	"os"
+	"path/filepath"
 	"runtime"
 	"strings"
 
@@ -14,29 +15,46 @@ import (
 	"github.com/discobox-ai/discobox/sandbox-agent/provision"
 )
 
-// Wire is a pool container's boot: discobox-wire.service runs it from the
-// container's own systemd, before local-fs.target and so before every unit
-// that uses a wired path (ADR 26-10-10-767). It provisions the sandbox user from
-// the bootstrap's own `user`, binds the config volume onto /etc/discobox and the
-// secrets volume onto /run/discobox/secrets, wires the image-declared volumes
-// and the sources from the primary volumes the pool agent mounted (ADR 0007),
-// writes the units bound to the sandbox user, and reloads the manager so they
-// are read.
+// Wire is a sandbox's boot: discobox-wire.service runs it from the box's own
+// systemd, before local-fs.target and so before every unit that uses a wired
+// path, in a pool's container (ADR 26-10-10-767) and on a machine (ADR
+// 26-11-02-023 §2). It provisions the sandbox user from the bootstrap's own
+// `user`, wires the image-declared volumes from the box's data and cache
+// roots (ADR 0007), writes the units bound to the sandbox user, and reloads
+// the manager so they are read. In a container it also binds the config
+// volume onto /etc/discobox and the secrets volume onto /run/discobox/secrets,
+// and wires the sources, all from the primary volumes the pool agent mounted.
 //
-// It runs on every boot, unlike Provision: a container's mounts do not survive
-// a restart, nor its account a rebuild. Provision runs only on a machine whose
-// disk persists across its stops, and keeps its record there; Wire has no such
-// disk under it.
+// A machine has none of those volumes: its bootstrap is the one its pool
+// placed at /etc/discobox, its sources and secrets arrive through the intake,
+// and its data and cache roots are directories on its own disk, made here
+// (ADR 26-11-02-023 §1).
 //
-// An error fails the unit, and the unit's failure ends the container: a sandbox
-// whose wiring failed would write its state into the image layer.
+// It runs on every boot, unlike Provision: neither a container's mounts nor a
+// machine's survive a restart, nor a container's account a rebuild.
+//
+// An error fails the unit, and the unit's failure ends the container or
+// powers the machine off: a sandbox whose wiring failed would write its state
+// where nothing keeps it, the image layer, or under the paths it was meant to
+// be bound over.
 func Wire(logger *slog.Logger) error {
 	if logger == nil {
 		logger = slog.Default()
 	}
-	// Both volumes and sources come from this one read of the config volume's
-	// copy, before it is bound onto /etc/discobox (ADR 0012 §6).
-	bootstrap, err := loadEffectiveConfig(manifestPath)
+	b := newBooter()
+	// Only a pool's container has the config volume. Its copy is read
+	// before it is bound onto /etc/discobox (ADR 0012 §6); a machine's
+	// bootstrap is already there.
+	path := manifestPath
+	if !dirExists(configMountPath) {
+		path, b.ownDisk = machineManifestPath, true
+		for _, root := range []string{dataMountPath, cacheMountPath} {
+			if err := os.MkdirAll(root, 0o755); err != nil {
+				return err
+			}
+		}
+	}
+	bootstrap, err := loadEffectiveConfig(path)
 	if err != nil {
 		return err
 	}
@@ -44,28 +62,30 @@ func Wire(logger *slog.Logger) error {
 	if err != nil {
 		return err
 	}
-	b := newBooter()
 	if err := b.provision(logger, id, &bootstrap, true); err != nil {
 		return err
 	}
 	if err := wireSecrets(); err != nil {
 		return fmt.Errorf("wire secrets: %w", err)
 	}
-	return b.reloadUserUnits(logger, id)
+	if err := b.reloadUserUnits(logger, id); err != nil {
+		return err
+	}
+	return markWired()
 }
 
-// Provision is Wire's provisioning for a sandbox with no config volume to wire:
-// a VM guest boots its own init, and the agent is one of its services,
-// started once the bootstrap at path has been placed through the running guest
-// (ADR 26-10-09-143 §1). It sets up what applies outside a container -- the
-// sandbox user and its groups, the working root, the home skeleton,
-// ~/.gitconfig, direnv config and the units bound to the sandbox user -- and
-// wires nothing: there are no declared volumes (ADR 0126 §2), and sources
+// Provision is Wire's provisioning for a sandbox Wire did not run on this
+// boot: a Linux box whose init does not run discobox-wire.service, where
+// the agent is one of its services, started once the bootstrap at path has
+// been placed (ADR 26-10-09-143 §1). It sets up the sandbox user and its
+// groups, the working root, the home skeleton, ~/.gitconfig, direnv config
+// and the units bound to the sandbox user, and wires nothing: the box is
+// already running, and a mount laid under its running processes would split
+// their view of the path (ADR 26-11-02-023, Alternatives rejected); sources
 // arrive through the intake.
 //
-// Where Wire ran, it has already done all of this, and Provision does nothing.
-// The config volume is what says so: only a pool's container has one, and Wire
-// is what binds it onto /etc/discobox.
+// Where Wire ran this boot, it has already done all of this, and Provision
+// does nothing: Wire's marker in /run says so, which a restart clears.
 //
 // Only a Linux guest has accounts to provision. A macOS or Windows sandbox has
 // one account, the image's own (ADR 0145 §5), and nothing here applies to it.
@@ -73,10 +93,21 @@ func Provision(logger *slog.Logger, path string) error {
 	if logger == nil {
 		logger = slog.Default()
 	}
-	if dirExists(configMountPath) || runtime.GOOS != "linux" {
+	if fileExists(wiredMarker) || runtime.GOOS != "linux" {
 		return nil
 	}
 	return newBooter().provisionOnce(logger, path)
+}
+
+// wiredMarker says Wire ran on this boot. It is in /run, a tmpfs, so a
+// restart clears it. A variable so a test does not read the box's own.
+var wiredMarker = "/run/discobox/wired"
+
+func markWired() error {
+	if err := os.MkdirAll(filepath.Dir(wiredMarker), 0o755); err != nil {
+		return err
+	}
+	return os.WriteFile(wiredMarker, nil, 0o600)
 }
 
 // JoinFeatureGroups wires the features of the box's bundle trees and joins

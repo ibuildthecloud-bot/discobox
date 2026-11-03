@@ -836,8 +836,13 @@ func (r *MachineSandboxRuntime) agentListenAddress(ctx context.Context, inst mac
 // place puts in the running machine what its agent boots on — sandbox.json,
 // and the agent layer when it is not there yet, its units and its pins — and
 // runs `discobox-provision apply`, which starts the agent. It reports moved
-// when the machine was placed before with something else, which the agent
-// started on at boot: then the machine is restarted so it boots on this.
+// when the machine must be restarted to boot on this: it was placed before
+// with something else, which the agent started on at boot; or it was never
+// placed, and the first placement starts nothing. A machine boots before its
+// bootstrap is placed, so its own services — boxd's dockerd and containerd
+// — are already running on the paths its declared volumes are wired onto,
+// which only discobox-wire.service at a boot, before them, may wire (ADR
+// 26-11-02-023 §3).
 func (r *MachineSandboxRuntime) place(ctx context.Context, sandboxID string, inst machine.Instance, record machineRecord) (bool, error) {
 	pins, ok, err := r.deliveredPins(sandboxID)
 	if err != nil {
@@ -892,21 +897,27 @@ func (r *MachineSandboxRuntime) place(ctx context.Context, sandboxID string, ins
 	}
 	reader, writer := io.Pipe()
 	go func() {
-		writer.CloseWithError(agentlayer.Archive(writer, agent, had && placed.Layer == agent.Digest, pins, agentlayer.Units))
+		writer.CloseWithError(agentlayer.Archive(writer, agent, had && placed.Layer == agent.Digest, pins, agentlayer.MachineUnits))
 	}()
 	defer reader.Close()
-	result, err := provisioner.Provision(ctx, guest, provisioner.Plan{
-		Dir:     "/",
-		Tree:    reader,
-		Command: machine.ExecRequest{Argv: []string{agentlayer.AgentPath, "provision", "apply"}},
-	})
-	if err != nil {
-		if tail := strings.TrimSpace(string(result.Stderr)); tail != "" {
-			err = fmt.Errorf("%w: %s", err, tail)
+	if !had {
+		if err := guest.CopyTo(ctx, "/", reader); err != nil {
+			return false, fmt.Errorf("place sandbox %s's agent: %w", sandboxID, err)
 		}
-		return false, fmt.Errorf("provision sandbox %s's machine: %w", sandboxID, err)
+	} else {
+		result, err := provisioner.Provision(ctx, guest, provisioner.Plan{
+			Dir:     "/",
+			Tree:    reader,
+			Command: machine.ExecRequest{Argv: []string{agentlayer.AgentPath, "provision", "apply"}},
+		})
+		if err != nil {
+			if tail := strings.TrimSpace(string(result.Stderr)); tail != "" {
+				err = fmt.Errorf("%w: %s", err, tail)
+			}
+			return false, fmt.Errorf("provision sandbox %s's machine: %w", sandboxID, err)
+		}
 	}
-	moved := had && (placed.Layer != agent.Digest || !samePins(placed.Pins, pins) || placed.Bootstrap != bootstrapDigest)
+	moved := !had || placed.Layer != agent.Digest || !samePins(placed.Pins, pins) || placed.Bootstrap != bootstrapDigest
 	if err := r.writePlaced(sandboxID, placedRecord{Container: inst.ID, Layer: agent.Digest, Pins: pins, Bootstrap: bootstrapDigest}); err != nil {
 		return false, err
 	}

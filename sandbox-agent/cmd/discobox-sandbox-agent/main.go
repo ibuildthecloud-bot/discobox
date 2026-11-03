@@ -111,7 +111,8 @@ func run(name string, args []string) int {
 		}
 		return 0
 	}
-	// discobox-wire.service: a pool container's boot (ADR 26-10-10-767).
+	// discobox-wire.service: a sandbox's boot, a container's or a machine's (ADR
+	// 26-10-10-767, ADR 26-11-02-023).
 	if len(args) > 0 && args[0] == "wire" {
 		if err := boot.Wire(slog.Default()); err != nil {
 			slog.Error("wire sandbox", "error", err)
