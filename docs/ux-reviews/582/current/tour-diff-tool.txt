@@ -1,0 +1,40 @@
+  discobox                             sbx_1yf2kh0j9we53dt3  main@dd09de6*  dirty          cpu 1%    ctrl+a d put away
+╭───────────────────────────────────────────────────[ diff ]────────────────────────────────────────────────────[-][x]─╮
+│ Reviewing: main  ·  from origin/main dd09de6 ↑0 ↓0                                           F1 help  ·  Ctrl-Q quit │
+│  Review · from origin/main · split                                                                     0/1 approved  │
+│  ○ ·  ▸ tour-note.txt                                                                                +1 · untracked  │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│ a approve · Space fold · F fold them all · s unify · ] next file · ? keys            1 to read · 1 to commit · ctx:5 │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+  every key goes to diff · ctrl+a d put away · ctrl+a X close · ctrl+a o tools

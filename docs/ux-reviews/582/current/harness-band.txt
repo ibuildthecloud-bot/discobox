@@ -1,0 +1,40 @@
+  discobox                                   sbx_g0wkbx8xnxtpevcg  Desktop         cpu 0%  mem 329M    ctrl+a d detach
+   ✎  UX review Claude settings or login changed in this box    click to review and save              or  ctrl+a H  ✕
+╭─────────────────────────────────────────────────[ UX review Claude ]─────────────────────────────────────────────────╮
+│                                                                                                                      │
+│  ▐▛███▛█   Claude Code v2.1.319                                                                                      │
+│ ▝▜██████▀  Opus 5.5 · API Usage Billing                                                                              │
+│  ▝▝   ▝▝   /workspace                                                                                                │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                         Not logged in · Run /login   │
+│ ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────── │
+│ ❯                                                                                                                    │
+│ ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────── │
+│   ⏵⏵ bypass permissions on (shift+tab to cycle)                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+   ✎  UX review Claude settings or login changed in this box    click to review and save              or  ctrl+a H  ✕
+  ctrl+a . actions · ctrl+a k palette · ctrl+a d detach · ctrl+a s shell · ctrl+a o tools · ctrl+a A audit

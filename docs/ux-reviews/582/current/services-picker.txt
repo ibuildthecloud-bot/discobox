@@ -1,0 +1,40 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ╭──────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+      │                                                                                                          │
+      │  Services — UX review tour                                                                               │
+      │                                                                                                          │
+      │  ❯ 1  Desktop                stopped · The sandbox's graphical desktop, in a browser tab.                │
+      │    2  UX background service  running                                                                     │
+      │                                                                                                          │
+      │  Enter runs the highlighted action · Esc cancels                                                         │
+      │                                                                                                          │
+      ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,40 @@
+darren@sbx-1yf2kh0j9we53dt3:/workspace/tour$ 'discobox-primary-run' '/workspace/
+tour'
+Hi! Welcome to Discobox.
+
+You are inside a box: your own workspace for an agent and its tools.
+This menu runs before your selected harness. No agent account is needed
+for the tour; signing in comes when you choose to continue.
+
+Press Enter to begin. (Ctrl-C leaves you at a shell.)
+
+
+Discobox tour — choose something to try
+  [ ] 1 What this box is
+  [ ] 2 Open a shell
+  [ ] 3 Tools
+  [ ] 4 Secrets and requests
+  [ ] 5 Harnesses
+  [ ] 6 Leaving and returning
+  c  Continue to my harness
+  q  Exit tour (stay at a shell)
+
+Choice: 1
+
+A box has its own Linux environment, home directory and copied source.
+Commands here run in the box, not on your host machine. Your agent will
+work here too. Stopping and restarting keeps your work. Detaching leaves
+programs running; idle boxes can power off automatically.
+
+Try the other chapters in any order. No production credentials are needed.
+Commits made here do not change your original checkout. Push work to a
+Git remote before archiving; a box is not your only backup.
+
+This tour checkout: /workspace/tour
+
+Press Enter to return to the menu.
+
+
+
+
+ discobox  discobox-ai/tour                                                          ctrl+a . actions · ctrl+a d detach

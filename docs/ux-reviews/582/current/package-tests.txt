@@ -1,0 +1,2 @@
+ok  	github.com/discobox-ai/discobox/cli/internal/cli	39.795s
+ok  	github.com/discobox-ai/discobox/cli/internal/tui	2.556s

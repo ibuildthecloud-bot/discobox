@@ -1,0 +1,40 @@
+  discobox                            sbx_1yf2kh0j9we53dt3  blocked  main@dd09de6*           cpu 1%    ctrl+a d detach
+   ⚠  API access request  ·  discobox API access    click to answer                                   or  ctrl+a g  ✕
+╭──────────────────────────────────────────────────[ UX review tour ]──────────────────────────────────────────────────╮
+│   [ ] 2 Open a shell                                                                                                 │
+│   [ ] 3 Tools                                                                                                        │
+│   [x] 4 Secrets and requests                                                                                         │
+│   [x] 5 Harnesses                                                                                                    │
+│   [ ] 6 Leaving and returning                                                                                        │
+│   c  Continue to my harness                                                                                          │
+│   q  Exit tour (stay at a shell)                                                                                     │
+│                                                                                                                      │
+│ Choice: 6                                                                                                            │
+│                                                                                                                      │
+│ Try detaching: press Ctrl-A, release it, then d.                                                                     │
+│ On your host, run discobox ls to find this box, then:                                                                │
+│                                                                                                                      │
+│   discobox attach BOX                                                                                                │
+│                                                                                                                      │
+│ Replace BOX with its name or identifier. You return to this same menu.                                               │
+│ Detaching does not stop the box. From your host you can explicitly use:                                              │
+│                                                                                                                      │
+│   discobox stop BOX                                                                                                  │
+│   discobox start BOX                                                                                                 │
+│                                                                                                                      │
+│ Before Continue, a new primary launch shows the menu again. After                                                    │
+│ Continue, a durable marker skips the tour on later starts of this box.                                               │
+│ To replay without starting another harness, open a shell and run:                                                    │
+│                                                                                                                      │
+│   .discobox/scripts/pre-harness --replay                                                                             │
+│                                                                                                                      │
+│ When finished, collect any work, then run on your host:                                                              │
+│                                                                                                                      │
+│   discobox rm BOX                                                                                                    │
+│                                                                                                                      │
+│ This archives the box. The tour never archives it for you.                                                           │
+│                                                                                                                      │
+│ Press Enter to return to the menu.                                                                                   │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+   ⚠  API access request  ·  discobox API access    click to answer                                   or  ctrl+a g  ✕
+  ctrl+a . actions · ctrl+a k palette · ctrl+a d detach · ctrl+a s shell · ctrl+a o tools · ctrl+a A audit

@@ -1,0 +1,40 @@
+  discobox                             sbx_1yf2kh0j9we53dt3  main@dd09de6  clean             cpu 1%    ctrl+a d detach
+╭─[ 0 UX review tour ]─────────────────────────────────[+]─╮╭─[ 1 bash ]────────────────────────────────────────[+][x]─╮
+│ A box has its own Linux environment, home directory and  ││ darren@sbx-1yf2kh0j9we53dt3:/workspace/tour$ printf 'Hel │
+│ Commands here run in the box, not on your host machine.  ││ lo from my box!\n' > tour-note.txt; cat tour-note.txt; g │
+│ work here too. Stopping and restarting keeps your work.  ││ it status --short                                        │
+│ programs running; idle boxes can power off automatically ││ Hello from my box!                                       │
+│                                                          ││ ?? tour-note.txt                                         │
+│ Try the other chapters in any order. No production crede ││ darren@sbx-1yf2kh0j9we53dt3:/workspace/tour$             │
+│ Commits made here do not change your original checkout.  ││                                                          │
+│ Git remote before archiving; a box is not your only back ││                                                          │
+│                                                          ││                                                          │
+│ This tour checkout: /workspace/tour                      ││                                                          │
+│                                                          ││                                                          │
+│ Press Enter to return to the menu.                       ││                                                          │
+│                                                          ││                                                          │
+│ Discobox tour — choose something to try                  ││                                                          │
+│   [x] 1 What this box is                                 ││                                                          │
+│   [ ] 2 Open a shell                                     ││                                                          │
+│   [ ] 3 Tools                                            ││                                                          │
+│   [ ] 4 Secrets and requests                             ││                                                          │
+│   [ ] 5 Harnesses                                        ││                                                          │
+│   [ ] 6 Leaving and returning                            ││                                                          │
+│   c  Continue to my harness                              ││                                                          │
+│   q  Exit tour (stay at a shell)                         ││                                                          │
+│                                                          ││                                                          │
+│ Choice: 2                                                ││                                                          │
+│                                                          ││                                                          │
+│ Press Ctrl-A, release it, then s to open a shell beside  ││                                                          │
+│ In that shell run:                                       ││                                                          │
+│                                                          ││                                                          │
+│   printf 'Hello from my box!\n' > tour-note.txt          ││                                                          │
+│   cat tour-note.txt                                      ││                                                          │
+│   git status --short                                     ││                                                          │
+│                                                          ││                                                          │
+│ That file is a harmless change in this box's copy. It is ││                                                          │
+│ or remove with: rm tour-note.txt                         ││                                                          │
+│                                                          ││                                                          │
+│ Type exit to close the extra shell, or click this menu's ││                                                          │
+╰──────────────────────────────────────────────────────────╯╰──────────────────────────────────────────────────────────╯
+  ctrl+a . actions · ctrl+a k palette · ctrl+a d detach · ctrl+a s shell · ctrl+a X end · ctrl+a o tools

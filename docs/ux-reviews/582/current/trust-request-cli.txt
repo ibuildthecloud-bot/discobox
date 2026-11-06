@@ -1,0 +1,13 @@
+FIELD     VALUE
+ID        treq_5e4j9907z4rgg2cq
+HOST      172.19.0.2:18443
+DISCOBOX  sbx_1yf2kh0j9we53dt3
+STATUS    denied
+WHY       UX 582 locally generated test certificate
+
+Chain the pool was shown, leaf first:
+  [0] CN=ux582-test
+      issuer   CN=ux582-test
+      valid    2026-11-06 to 2026-11-07
+      pin      ca:6ead6998ac34341de1e1a358784fe94c5b5904864dbe053b83d75201ecb21e9f
+      pin      leaf-spki:7977c6aaf05a4cf74653c31da08c89aef35180a2419a236f4f11312bd77bc571

@@ -1,5 +1,9 @@
 # Release UX walk — #582
 
+**Current follow-up:** [Release UX re-review](current/README.md) covers the
+merged welcome removal, tour, minimal attach, approval redesign and CI coverage.
+The captures below record the earlier experience.
+
 **Actual terminal screenshots:** [Live Kitty gallery](rendered/README.md).
 These native window captures supersede the earlier PNG reconstructions below.
 

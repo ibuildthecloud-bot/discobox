@@ -1,0 +1,40 @@
+ discobox
+╭───────[ discoboxes ]────────[+][x]─╮
+│ all discoboxes ▾                   │
+│  machine  cpu 0.1/64               │
+│ Discoboxes                 3 boxes │
+│ discobox-ai/tour on github   1 box │
+│  ●   UX review tour                │
+│ no source                  2 boxes │
+│  ● ◇ UX review Claude              │
+│  ●   UX review shell               │
+│                                    │
+│                                    │    ╭───────────────────────────────────────────────────────────────────────╮
+│                                    │    │                                                                       │
+│                                    │    │  Reset                                                                │
+│                                    │    │                                                                       │
+│                                    │    │  Reset UX review Claude (variant of harness_c7fv3k1g18n2fk2e) to its  │
+│                                    │    │  bundle's defaults? The settings and logins saved to it from          │
+│                                    │    │  discoboxes are deleted. New discoboxes on it start signed out until  │
+│                                    │    │  a login made in one is saved again; secrets you bound to it by hand  │
+│                                    │    │  are kept.                                                            │
+│                                    │    │                                                                       │
+│        ▗▖                          │    │  It has files you added or overrode yourself.                         │
+│        ▍▋                          │    │                                                                       │
+│        ▌▋  ▁▁                      │    │  ❯ r  Reset, keep your files  the files you added or overrode stay    │
+│         ▄▆▇▄▄▃▂▆▅▃▂▁               │    │    a  Reset your files too    nothing but the bundle's files is left  │
+│          ▎▌ ▗▄▖  ▆▅▄▃▂▆▄           │    │                                                                       │
+│          ▍▌ ▝▃▘▘▇▆ ▅▅  ▎▍          │    │  Enter runs the highlighted action · Esc cancels                      │
+│           ▖▄   ▇▆  ▄▄ ▗ ▎          │    │                                                                       │
+│          ▃▄ ▇▄▃▂▁  ▁▃▆▃▆▖▖         │    ╰───────────────────────────────────────────────────────────────────────╯
+│         ▋     ▁▂▃     ▝▖▃▘         │
+│         ▌     ▖  ▝      ▄          │
+│         ▝▅▅▅▅▅▅   ▝▅▅▅▅▅▅          │
+│                                    │
+├────────────────────────────────────┤
+│ + new discobox                     │
+│   harnesses                     F3 │
+│   secrets                       F4 │
+│ ctrl+a h list · ctrl+a ↑↓ switch   │
+╰────────────────────────────────────╯
+

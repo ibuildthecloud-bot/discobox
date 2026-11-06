@@ -1,0 +1,41 @@
+Run a command in a discobox and stream it to this terminal, or open its login
+shell.
+
+DISCOBOX is the NAME "discobox ls" prints, an ID, or a short prefix of one.
+Without it the discobox is taken from "discobox ls": the only one when there is
+one, otherwise you are asked to pick. The command follows DISCOBOX; an optional -- separates them explicitly.
+Use a leading -- to omit DISCOBOX and have it selected for you.
+CLI flags go before DISCOBOX; everything after it is passed to the command.
+
+Without a command this starts a shell. In a terminal it is the one
+$DISCOBOX_SHELL names on this machine — or nu, when run from nushell, or else
+$SHELL — when the discobox has it: that path, or a shell of the same name on
+the discobox's PATH once its login profile and the directory's .envrc have
+loaded, so a shell the repository's dev environment provides counts. Otherwise
+it is the discobox user's login shell, from that user's passwd entry.
+
+Stdin is always attached, and a PTY is allocated only when this terminal is one,
+so piping and redirecting behave like a local command. Signals are forwarded to
+the remote process, and exec exits with its exit code. If an interrupt stops
+getting through — the discobox or the server has gone quiet — Ctrl-C again says
+so, and one more quits exec and leaves the command where it is.
+
+Examples:
+  discobox exec
+  discobox exec mybox
+  discobox exec mybox -- go test ./...
+  discobox exec sbx_01hq ls -la
+  discobox exec -- git log --oneline
+
+Usage:
+  discobox exec [DISCOBOX] [--] [CMD...] [flags]
+
+Options:
+  -h, --help           help for exec
+
+Global options:
+      --color WHEN     set color WHEN to auto, always, or never (default auto)
+      --debug          print HTTP requests and the git commands run on this machine
+  -o, --output FORMAT  output FORMAT: table or json (default table)
+      --server SERVER  connect to SERVER, an endpoint or a registered server's name; defaults to the primary "discobox admin remote primary" set, and to the local server when none is
+      --token TOKEN    bearer TOKEN for API requests

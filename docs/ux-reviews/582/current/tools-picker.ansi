@@ -1,0 +1,40 @@
+
+
+
+
+
+
+
+
+
+
+
+      [38;5;220m╭──────────────────────────────────────────────────────────────────────────────────────────────────────────╮[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  [1m[38;5;220mTools[0m                                                                                                   [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  Run a tool against UX review tour, or take an address to it.                                            [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;220m❯[39m [38;5;220md[39m  [1mdiff          [0m  [38;5;240mwhat has changed, in discobox-review[39m                                               [38;5;220m│[39m
+      [38;5;220m│[39m    [38;5;220mv[39m  [38;5;240mvscode        [39m  [38;5;240mopen the discobox in VS Code, in a window of its own[39m                               [38;5;220m│[39m
+      [38;5;220m│[39m    [38;5;220mz[39m  [38;5;240mzed           [39m  [38;5;240mopen the discobox in Zed, in a window of its own[39m                                   [38;5;220m│[39m
+      [38;5;220m│[39m    [38;5;220ms[39m  [38;5;240mssh           [39m  [38;5;240mssh sbx_1yf2kh0j9we53dt3.proj_rzvy7kknkn06x9xp-d30a576c0318716717366ab932e3d7df.…[39m  [38;5;220m│[39m
+      [38;5;220m│[39m    [38;5;220mg[39m  [38;5;240mgit url       [39m  [38;5;240mssh://sbx_1yf2kh0j9we53dt3.proj_rzvy7kknkn06x9xp-d30a576c0318716717366ab932e3d7d…[39m  [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mssh and git url copy rather than open. They are the whole of what it takes from any shell on this[39m       [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mmachine — opening this refreshed the ssh config behind them.[39m                                            [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mEnter opens or copies · e its config · ctrl+a d puts one away · ctrl+a X ends it · Esc cancels[39m          [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m╰──────────────────────────────────────────────────────────────────────────────────────────────────────────╯[39m
+
+
+
+
+
+
+
+
+
+
+
+

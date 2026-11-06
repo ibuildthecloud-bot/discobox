@@ -1,0 +1,14 @@
+pending (candidate 3fa58a624a3ad4dd1764b689147052ff, revision 1)
+update .claude/settings.json
+@@ -1,7 +1,3 @@
+ {
+-  "theme": "dark",
+-  "skipDangerousModePermissionPrompt": true,
+-  "permissions": {
+-    "defaultMode": "bypassPermissions"
+-  }
++  "theme": "light"
+ }
+
+Save shared defaults: discobox --server 'http://127.0.0.1:8080' --project 'default' admin harness save 'sbx_g0wkbx8xnxtpevcg' '3fa58a624a3ad4dd1764b689147052ff'
+Discard candidate: discobox --server 'http://127.0.0.1:8080' --project 'default' admin harness discard 'sbx_g0wkbx8xnxtpevcg' '3fa58a624a3ad4dd1764b689147052ff'

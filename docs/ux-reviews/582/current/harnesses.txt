@@ -1,0 +1,40 @@
+ discobox                                                                                                ctrl+a q quit
+╭───────[ discoboxes ]────────[+][x]─╮╭────────────────────────────────────────────────────────────────────────────────╮
+│ all discoboxes ▾                   ││                                                                                │
+│  machine  cpu 0.1/64               ││  Harnesses                                                        8 harnesses  │
+│ Discoboxes                 3 boxes ││ ❯ Claude Code                          built-in  2 secrets  2 files  10m ago   │
+│ discobox-ai/tour on github   1 box ││   Codex                                built-in  2 secrets  1 file   10m ago   │
+│  ●   UX review tour                ││   OpenCode                             built-in             2 files  10m ago   │
+│ no source                  2 boxes ││   GitHub Copilot                       built-in  1 secret   1 file   10m ago   │
+│  ● ◇ UX review Claude              ││   omp                                  built-in             2 files  10m ago   │
+│  ●   UX review shell               ││   pi                                   built-in             2 files  10m ago   │
+│                                    ││   Shell                                built-in             1 file   10m ago   │
+│                                    ││   UX review Claude (varia…                       2 secrets  3 files  just now  │
+│                                    ││                                                                                │
+│                                    ││                                                                                │
+│                                    ││                                                                                │
+│                                    ││                                                                                │
+│                                    ││                                                                                │
+│                                    ││                                                                                │
+│                                    ││                                                                                │
+│                                    ││                                                                                │
+│                                    ││                                                                                │
+│        ▗▖                          ││                                                                                │
+│        ▍▋                          ││                                                                                │
+│        ▌▋  ▁▁                      ││                                                                                │
+│         ▄▆▇▄▄▃▂▆▅▃▂▁               ││                                                                                │
+│          ▎▌ ▗▄▖  ▆▅▄▃▂▆▄           ││                                                                                │
+│          ▍▌ ▝▃▘▘▇▆ ▅▅  ▎▍          ││                                                                                │
+│           ▖▄   ▇▆  ▄▄ ▗ ▎          ││                                                                                │
+│          ▃▄ ▇▄▃▂▁  ▁▃▆▃▆▖▖         ││                                                                                │
+│         ▋     ▁▂▃     ▝▖▃▘         ││                                                                                │
+│         ▌     ▖  ▝      ▄          ││                                                                                │
+│         ▝▅▅▅▅▅▅   ▝▅▅▅▅▅▅          ││                                                                                │
+│                                    ││                                                                                │
+├────────────────────────────────────┤│                                                                                │
+│ + new discobox                     ││                                                                                │
+│   harnesses                     F3 ││                                                                                │
+│   secrets                       F4 ││                                                                                │
+│ ctrl+a h list · ctrl+a ↑↓ switch   ││                                                                                │
+╰────────────────────────────────────╯╰────────────────────────────────────────────────────────────────────────────────╯
+                                        c create variant · s default · v config · f files · r reset · Esc back

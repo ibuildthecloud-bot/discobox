@@ -1,0 +1,40 @@
+  [38;5;245mdiscobox  [39m                          [38;5;240msbx_1yf2kh0j9we53dt3[39m  [1m[38;5;196mblocked[0m  [38;5;214mmain@dd09de6*[39m           [38;5;240mcpu 1%[39m    [38;5;240mctrl+a d detach[39m
+  [1m[38;5;214m[48;5;52m ⚠  [39mAPI access request[0m[38;5;245m[48;5;52m  ·  [1m[39mdiscobox API access[0m[48;5;52m  [1m[38;5;231m[48;5;160m  click to answer  [0m[48;5;52m                               [38;5;245m  or  [1m[39mctrl+a g[0m[38;5;245m[48;5;52m [1m[39m ✕ [0m
+[38;2;244;92;255m╭──────────────────────────────────────────────────[[1m[39m UX review tour [0m[38;2;244;92;255m]──────────────────────────────────────────────────╮
+│[39m The only requested route is GET tour.discobox.invalid/demo.                                                          [38;2;244;92;255m│
+│[39m                                                                                                                      [38;2;244;92;255m│
+│[39m Press Ctrl-A then g to open the inbox when the request appears.                                                      [38;2;244;92;255m│
+│[39m You may deny it and still finish the tour. No delegation is requested.                                               [38;2;244;92;255m│
+│[39m                                                                                                                      [38;2;244;92;255m│
+│[39m sreq_gst6e143q4xzch59 denied                                                                                         [38;2;244;92;255m│
+│[39m   use: denied                                                                                                        [38;2;244;92;255m│
+│[39m                                                                                                                      [38;2;244;92;255m│
+│[39m If still pending, deny it in the inbox when done. Reopening this chapter                                             [38;2;244;92;255m│
+│[39m checks the same request. This protocol has no requester-side cancellation.                                           [38;2;244;92;255m│
+│[39m                                                                                                                      [38;2;244;92;255m│
+│[39m Press Enter to return to the menu.                                                                                   [38;2;244;92;255m│
+│[39m                                                                                                                      [38;2;244;92;255m│
+│[39m Discobox tour — choose something to try                                                                              [38;2;244;92;255m│
+│[39m   [ ] 1 What this box is                                                                                             [38;2;244;92;255m│
+│[39m   [ ] 2 Open a shell                                                                                                 [38;2;244;92;255m│
+│[39m   [ ] 3 Tools                                                                                                        [38;2;244;92;255m│
+│[39m   [x] 4 Secrets and requests                                                                                         [38;2;244;92;255m│
+│[39m   [ ] 5 Harnesses                                                                                                    [38;2;244;92;255m│
+│[39m   [ ] 6 Leaving and returning                                                                                        [38;2;244;92;255m│
+│[39m   c  Continue to my harness                                                                                          [38;2;244;92;255m│
+│[39m   q  Exit tour (stay at a shell)                                                                                     [38;2;244;92;255m│
+│[39m                                                                                                                      [38;2;244;92;255m│
+│[39m Choice: 5                                                                                                            [38;2;244;92;255m│
+│[39m                                                                                                                      [38;2;244;92;255m│
+│[39m Your harness is the program you selected before opening this box.                                                    [38;2;244;92;255m│
+│[39m Choose Continue to my harness when ready. An agent may ask you to sign                                               [38;2;244;92;255m│
+│[39m in; the shell harness simply returns to a shell. The tour needs neither                                              [38;2;244;92;255m│
+│[39m an agent subscription nor a sign-in.                                                                                 [38;2;244;92;255m│
+│[39m                                                                                                                      [38;2;244;92;255m│
+│[39m Sign in and adjust agent settings inside a box. When the green changes                                               [38;2;244;92;255m│
+│[39m to save band appears, press Ctrl-A then H to review what will be saved                                               [38;2;244;92;255m│
+│[39m for future boxes. Review carefully before saving or discarding.                                                      [38;2;244;92;255m│
+│[39m                                                                                                                      [38;2;244;92;255m│
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+[39m  [1m[38;5;214m[48;5;52m ⚠  [39mAPI access request[0m[38;5;245m[48;5;52m  ·  [1m[39mdiscobox API access[0m[48;5;52m  [1m[38;5;231m[48;5;160m  click to answer  [0m[48;5;52m                               [38;5;245m  or  [1m[39mctrl+a g[0m[38;5;245m[48;5;52m [1m[39m ✕ [0m
+  [38;5;240mctrl+a . actions · ctrl+a k palette · ctrl+a d detach · ctrl+a s shell · ctrl+a o tools · ctrl+a A audit[39m

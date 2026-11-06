@@ -1,0 +1,3 @@
+darren@sbx-gamrr9rqjnqygpe3:/workspace$ printf '%s%s\n' UX- 582-terminal
+UX-582-terminal
+darren@sbx-gamrr9rqjnqygpe3:/workspace$

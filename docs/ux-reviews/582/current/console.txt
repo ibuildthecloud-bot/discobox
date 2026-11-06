@@ -1,0 +1,40 @@
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ discobox  all discoboxes ▾                                 F1 help  ·  F3 harnesses  ·  F4 secrets  ·  ctrl+a q quit │
+│                                                                                                                      │
+│       ▗▖                         machine  cpu 0.1/64 · mem 14/504 GiB · disk 157 GiB free                            │
+│       ▍▋                        Discoboxes                                                                  3 boxes  │
+│       ▌▋  ▁▁                                                                                 cpu  mem      disk      │
+│        ▄▆▇▄▄▃▂▆▅▃▂▁             discobox-ai/tour on github                                                    1 box  │
+│         ▎▌ ▗▄▖  ▆▅▄▃▂▆▄        ❯ ●   go failed to provision…  shell      main@dd09de6*  dirty   12m ago              │
+│         ▍▌ ▝▃▘▘▇▆ ▅▅  ▎▍        no source                                                                   2 boxes  │
+│          ▖▄   ▇▆  ▄▄ ▗ ▎         ● ◇ UX review Claude         ux-582                    -       12m ago              │
+│         ▃▄ ▇▄▃▂▁  ▁▃▆▃▆▖▖        ●   UX review shell          shell                     -       12m ago              │
+│        ▋     ▁▂▃     ▝▖▃▘                                                                                            │
+│        ▌     ▖  ▝      ▄                                                                                             │
+│        ▝▅▅▅▅▅▅   ▝▅▅▅▅▅▅                                                                                             │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│   Enter runs the prompt in a new discobox, or just creates one when it is empty                                      │
+│   ────────────────────────────────────────────────────────────────────────────────────────────────────────────────   │
+│ ❯ What should the new discobox do?                                                                                   │
+│   ────────────────────────────────────────────────────────────────────────────────────────────────────────────────   │
+│   ⏵⏵ (default)                                                                                                       │
+│                                                                                                                      │
+│   : find box or command · ←→ read the rest of the name · a attach · s shell   sbx_1yf2kh0j9we53dt3  awesome_colden   │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯

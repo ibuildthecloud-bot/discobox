@@ -1,0 +1,40 @@
+
+
+
+
+
+
+
+
+
+
+
+      ╭──────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+      │                                                                                                          │
+      │  Tools                                                                                                   │
+      │                                                                                                          │
+      │  Run a tool against UX review tour, or take an address to it.                                            │
+      │                                                                                                          │
+      │  ❯ d  diff            what has changed, in discobox-review                                               │
+      │    v  vscode          open the discobox in VS Code, in a window of its own                               │
+      │    z  zed             open the discobox in Zed, in a window of its own                                   │
+      │    s  ssh             ssh sbx_1yf2kh0j9we53dt3.proj_rzvy7kknkn06x9xp-d30a576c0318716717366ab932e3d7df.…  │
+      │    g  git url         ssh://sbx_1yf2kh0j9we53dt3.proj_rzvy7kknkn06x9xp-d30a576c0318716717366ab932e3d7d…  │
+      │                                                                                                          │
+      │  ssh and git url copy rather than open. They are the whole of what it takes from any shell on this       │
+      │  machine — opening this refreshed the ssh config behind them.                                            │
+      │  Enter opens or copies · e its config · ctrl+a d puts one away · ctrl+a X ends it · Esc cancels          │
+      │                                                                                                          │
+      ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+
+
+
+
+
+
+
+
+
+
+

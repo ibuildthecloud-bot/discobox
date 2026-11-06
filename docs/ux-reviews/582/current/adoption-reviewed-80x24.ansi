@@ -1,0 +1,24 @@
+
+    [38;5;220m╭──────────────────────────────────────────────────────────────────────╮[39m
+    [38;5;220m│[39m                                                                      [38;5;220m│[39m
+    [38;5;220m│[39m  [1m[38;5;220mLet UX review tour (sbx_1yf2kh0j9we53dt3) lead UX review shell (s…[0m  [38;5;220m│[39m
+    [38;5;220m│[39m                                                                      [38;5;220m│[39m
+    [38;5;220m│[39m                                                                      [38;5;220m│[39m
+    [38;5;220m│[39m  [38;5;240m── What accepting changes ────────────────────────────────────────[39m  [38;5;220m│[39m
+    [38;5;220m│[39m  [1m[38;5;220mUX review tour (sbx_1yf2kh0j9we53dt3) replaces none as this[0m         [38;5;220m│[39m
+    [38;5;220m│[39m  [1m[38;5;220mbox's parent.[0m                                                       [38;5;220m│[39m
+    [38;5;220m│[39m  The child's credentials stay its own. Commands and file reads       [38;5;220m│[39m
+    [38;5;220m│[39m  may expose existing files and credential sentinels. Authority       [38;5;220m│[39m
+    [38;5;220m│[39m  covers this child alone.                                            [38;5;220m│[39m
+    [38;5;220m│[39m  Deny keeps the current parent. Esc leaves the request waiting.      [38;5;220m│[39m
+    [38;5;220m│[39m  [38;5;240m  … PgUp/PgDn to scroll[39m                                             [38;5;220m│[39m
+    [38;5;220m│[39m                                                                      [38;5;220m│[39m
+    [38;5;220m│[39m                                                                      [38;5;220m│[39m
+    [38;5;220m│[39m  [38;5;240mEnter selects Accept[39m                                                [38;5;220m│[39m
+    [38;5;220m│[39m  [1m[48;5;237m[ Accept ][0m  [ Deny ]                                                [38;5;220m│[39m
+    [38;5;220m│[39m                                                                      [38;5;220m│[39m
+    [38;5;220m│[39m  [38;5;240mTab / arrows move · Enter selects · Esc leaves waiting[39m              [38;5;220m│[39m
+    [38;5;220m│[39m                                                                      [38;5;220m│[39m
+    [38;5;220m╰──────────────────────────────────────────────────────────────────────╯[39m
+
+

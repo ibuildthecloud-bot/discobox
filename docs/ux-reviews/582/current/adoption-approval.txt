@@ -1,0 +1,40 @@
+
+
+
+
+
+      ╭──────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+      │                                                                                                          │
+      │  Let UX review tour (sbx_1yf2kh0j9we53dt3) lead UX review shell (sbx_gamrr9rqjnqygpe3)?                  │
+      │                                                                                                          │
+      │  Requesting box        UX review tour (sbx_1yf2kh0j9we53dt3)                                             │
+      │  Target box            UX review shell (sbx_gamrr9rqjnqygpe3)                                            │
+      │  Current parent        none                                                                              │
+      │  Reason (box's words)  UX 582 adoption approval walk                                                     │
+      │                                                                                                          │
+      │  ── Authority over this box ───────────────────────────────────────────────────────────────────────────  │
+      │  Terminals/files       Run commands; read and write files; attach to and end execs; read and type into   │
+      │                        terminals                                                                         │
+      │  Lifecycle             Start, stop, restart, repair, upgrade and archive                                 │
+      │  Settings/source       Change metadata and deliver its source                                            │
+      │  Services/ports        Inspect and control services; reach ports                                         │
+      │  Credentials           Answer requests within the parent's delegation                                    │
+      │                                                                                                          │
+      │  ── What accepting changes ────────────────────────────────────────────────────────────────────────────  │
+      │  UX review tour (sbx_1yf2kh0j9we53dt3) replaces none as this box's parent.                               │
+      │  The child's credentials stay its own. Commands and file reads may expose existing files and             │
+      │  credential sentinels. Authority covers this child alone.                                                │
+      │  Deny keeps the current parent. Esc leaves the request waiting.                                          │
+      │                                                                                                          │
+      │                                                                                                          │
+      │  Enter selects Accept                                                                                    │
+      │  [ Accept ]  [ Deny ]                                                                                    │
+      │                                                                                                          │
+      │  Tab / arrows move · Enter selects · Esc leaves waiting                                                  │
+      │                                                                                                          │
+      ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+
+
+
+

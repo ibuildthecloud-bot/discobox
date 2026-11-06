@@ -1,0 +1,40 @@
+
+
+
+
+      [38;5;220m╭──────────────────────────────────────────────────────────────────────────────────────────────────────────╮[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  [1m[38;5;220mAllow discobox API access?[0m                                                                              [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mBox[39m                   [1m[38;5;220msbx_1yf2kh0j9we53dt3[0m                                                              [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mReason (box's words)[39m  Verify compact approval after UX polish                                           [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240m── Project access ────────────────────────────────────────────────────────────────────────────────────[39m  [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mDiscovery[39m             List boxes and watch project events                                               [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mCreate[39m                Launch boxes within its allowed egress, using project harness configs and their   [38;5;220m│[39m
+      [38;5;220m│[39m                        credentials                                                                       [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240m── Authority over boxes it leads ─────────────────────────────────────────────────────────────────────[39m  [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mTerminals/files[39m       Run commands; read and write files; read output and type input                    [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mLifecycle[39m             Start, stop, restart, repair, upgrade and archive                                 [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mSource/settings[39m       Deliver source and edit metadata                                                  [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mServices/ports[39m        Inspect and control services; reach HTTP ports                                    [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mCredentials[39m           Answer eligible requests within its delegation                                    [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240m── Limits ────────────────────────────────────────────────────────────────────────────────────────────[39m  [38;5;220m│[39m
+      [38;5;220m│[39m  Management covers direct children in this project. Wider-egress children are read-only.                 [38;5;220m│[39m
+      [38;5;220m│[39m  Enabling API access grants no credential. Credential and egress restrictions still apply.               [38;5;220m│[39m
+      [38;5;220m│[39m  Access stays on until a person turns it off in Settings. Deny leaves access unchanged.                  [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mEnter selects Accept[39m                                                                                    [38;5;220m│[39m
+      [38;5;220m│[39m  [1m[48;5;237m[ Accept ][0m  [ Deny ]                                                                                    [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mTab / arrows move · Enter selects · Esc leaves waiting[39m                                                  [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m╰──────────────────────────────────────────────────────────────────────────────────────────────────────────╯[39m
+
+
+
+
+

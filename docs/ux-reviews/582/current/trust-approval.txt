@@ -1,0 +1,40 @@
+
+
+
+
+
+      ╭──────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+      │                                                                                                          │
+      │  Trust 172.19.0.2:18443?                                                                                 │
+      │                                                                                                          │
+      │  Box                   sbx_1yf2kh0j9we53dt3                                                              │
+      │  Host                  172.19.0.2:18443                                                                  │
+      │  Reason (box's words)  UX 582 locally generated test certificate                                         │
+      │                                                                                                          │
+      │  ── Selected certificate ──────────────────────────────────────────────────────────────────────────────  │
+      │  Subject               CN=ux582-test                                                                     │
+      │  Issuer                CN=ux582-test                                                                     │
+      │  Valid                 2026-11-06 to 2026-11-07                                                          │
+      │  CA SHA-256            6ead6998ac34341de1e1a358784fe94c5b5904864dbe053b83d75201ecb21e9f                  │
+      │                                                                                                          │
+      │  Trust certificates verified by this CA for this host and box only.                                      │
+      │                                                                                                          │
+      │  ── What accepting changes ────────────────────────────────────────────────────────────────────────────  │
+      │  This box may connect to 172.19.0.2:18443 using this trust for 1 hour.                                   │
+      │  Trust always expires. Deny leaves this host refused; other hosts and boxes are unaffected.              │
+      │                                                                                                          │
+      │  ❯ Trust by  ‹ Trust by its CA ›                                                                         │
+      │    Duration  ‹ 1 hour ›                                                                                  │
+      │                                                                                                          │
+      │  what an approval takes by default · CN=ux582-test · 6ead6998…ecb21e9f                                   │
+      │  [ Accept ]  [ Deny ]                                                                                    │
+      │                                                                                                          │
+      │  Tab / arrows move · Enter selects · Esc leaves waiting                                                  │
+      │                                                                                                          │
+      ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+
+
+
+
+

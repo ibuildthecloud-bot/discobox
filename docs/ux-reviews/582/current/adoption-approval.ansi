@@ -1,0 +1,40 @@
+
+
+
+
+
+      [38;5;220m╭──────────────────────────────────────────────────────────────────────────────────────────────────────────╮[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  [1m[38;5;220mLet UX review tour (sbx_1yf2kh0j9we53dt3) lead UX review shell (sbx_gamrr9rqjnqygpe3)?[0m                  [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mRequesting box[39m        [1m[38;5;220mUX review tour (sbx_1yf2kh0j9we53dt3)[0m                                             [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mTarget box[39m            [1m[38;5;220mUX review shell (sbx_gamrr9rqjnqygpe3)[0m                                            [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mCurrent parent[39m        none                                                                              [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mReason (box's words)[39m  UX 582 adoption approval walk                                                     [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240m── Authority over this box ───────────────────────────────────────────────────────────────────────────[39m  [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mTerminals/files[39m       Run commands; read and write files; attach to and end execs; read and type into   [38;5;220m│[39m
+      [38;5;220m│[39m                        terminals                                                                         [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mLifecycle[39m             Start, stop, restart, repair, upgrade and archive                                 [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mSettings/source[39m       Change metadata and deliver its source                                            [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mServices/ports[39m        Inspect and control services; reach ports                                         [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mCredentials[39m           Answer requests within the parent's delegation                                    [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240m── What accepting changes ────────────────────────────────────────────────────────────────────────────[39m  [38;5;220m│[39m
+      [38;5;220m│[39m  [1m[38;5;220mUX review tour (sbx_1yf2kh0j9we53dt3) replaces none as this box's parent.[0m                               [38;5;220m│[39m
+      [38;5;220m│[39m  The child's credentials stay its own. Commands and file reads may expose existing files and             [38;5;220m│[39m
+      [38;5;220m│[39m  credential sentinels. Authority covers this child alone.                                                [38;5;220m│[39m
+      [38;5;220m│[39m  Deny keeps the current parent. Esc leaves the request waiting.                                          [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mEnter selects Accept[39m                                                                                    [38;5;220m│[39m
+      [38;5;220m│[39m  [1m[48;5;237m[ Accept ][0m  [ Deny ]                                                                                    [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mTab / arrows move · Enter selects · Esc leaves waiting[39m                                                  [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m╰──────────────────────────────────────────────────────────────────────────────────────────────────────────╯[39m
+
+
+
+
+

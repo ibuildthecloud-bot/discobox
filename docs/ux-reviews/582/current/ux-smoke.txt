@@ -1,0 +1,7 @@
+TIMING builds 292.6s
+PASS terminal send/send-key/wait/capture and timeout 124
+PASS harness candidate review/save/reset preserves personal override
+PASS sandbox adoption denial/approval inbox transitions and release
+TIMING flows 143.4s
+TIMING cleanup 17.0s
+Artifacts: /workspace/discobox/build/ux-smoke/fb7f52d912ba

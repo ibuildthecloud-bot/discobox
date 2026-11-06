@@ -1,0 +1,3 @@
+ID                   STATUS   PID   EXIT  PORTS  NAME                   DESCRIPTION
+ai.discobox.desktop  stopped              6900   Desktop                The sandbox's graphical desktop, in a browser tab.
+ux-582-background    running  9275               UX background service  

@@ -1,0 +1,40 @@
+  [38;5;245mdiscobox  [39m                     [38;5;240msbx_1yf2kh0j9we53dt3[39m  [1m[38;5;196mblocked[0m  [38;5;214mmain@dd09de6*[39m  [38;5;111m]8;;http://localhost:6901\Desktop[39m]8;;\       [38;5;240mcpu 1%[39m    [38;5;240mctrl+a d detach[39m
+  [1m[38;5;214m[48;5;52m ⚠  [39mAPI access request[0m[38;5;245m[48;5;52m  ·  [1m[39mdiscobox API access[0m[48;5;52m  [1m[38;5;231m[48;5;196m  click to answer  [0m[48;5;52m                               [38;5;245m  or  [1m[39mctrl+a g[0m[38;5;245m[48;5;52m [1m[39m ✕ [0m
+[38;2;244;92;255m╭──────────────────────────────────────────────────[[1m[39m UX review tour [0m[38;2;244;92;255m]──────────────────────────────────────────────────╮
+│[39m Replace BOX with its name or identifier. You return to this same menu.                                               [38;2;244;92;255m│
+│[39m Detaching does not stop the box. From your host you can explicitly use:                                              [38;2;244;92;255m│
+│[39m                                                                                                                      [38;2;244;92;255m│
+│[39m   discobox stop BOX                                                                                                  [38;2;244;92;255m│
+│[39m   discobox start BOX                                                                                                 [38;2;244;92;255m│
+│[39m                                                                                                                      [38;2;244;92;255m│
+│[39m Before Continue, a new primary launch shows the menu again. After                                                    [38;2;244;92;255m│
+│[39m Continue, a durable marker skips the tour on later starts of this box.                                               [38;2;244;92;255m│
+│[39m To replay without starting another harness, open a shell and run:                                                    [38;2;244;92;255m│
+│[39m                                                                                                                      [38;2;244;92;255m│
+│[39m   .discobox/scripts/pre-harness --replay                                                                             [38;2;244;92;255m│
+│[39m                                                                                                                      [38;2;244;92;255m│
+│[39m When finished, collect any work, then run on your host:                                                              [38;2;244;92;255m│
+│[39m                                                                                                                      [38;2;244;92;255m│
+│[39m   discobox rm BOX                                                                                                    [38;2;244;92;255m│
+│[39m                                                                                                                      [38;2;244;92;255m│
+│[39m This archives the box. The tour never archives it for you.                                                           [38;2;244;92;255m│
+│[39m                                                                                                                      [38;2;244;92;255m│
+│[39m Press Enter to return to the menu.                                                                                   [38;2;244;92;255m│
+│[39m                                                                                                                      [38;2;244;92;255m│
+│[39m Discobox tour — choose something to try                                                                              [38;2;244;92;255m│
+│[39m   [ ] 1 What this box is                                                                                             [38;2;244;92;255m│
+│[39m   [ ] 2 Open a shell                                                                                                 [38;2;244;92;255m│
+│[39m   [ ] 3 Tools                                                                                                        [38;2;244;92;255m│
+│[39m   [x] 4 Secrets and requests                                                                                         [38;2;244;92;255m│
+│[39m   [x] 5 Harnesses                                                                                                    [38;2;244;92;255m│
+│[39m   [x] 6 Leaving and returning                                                                                        [38;2;244;92;255m│
+│[39m   c  Continue to my harness                                                                                          [38;2;244;92;255m│
+│[39m   q  Exit tour (stay at a shell)                                                                                     [38;2;244;92;255m│
+│[39m                                                                                                                      [38;2;244;92;255m│
+│[39m Choice: c                                                                                                            [38;2;244;92;255m│
+│[39m                                                                                                                      [38;2;244;92;255m│
+│[39m Tour complete. Returning to your shell.                                                                              [38;2;244;92;255m│
+│[39m darren@sbx-1yf2kh0j9we53dt3:/workspace/tour$                                                                         [38;2;244;92;255m│
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+[39m  [1m[38;5;214m[48;5;52m ⚠  [39mAPI access request[0m[38;5;245m[48;5;52m  ·  [1m[39mdiscobox API access[0m[48;5;52m  [1m[38;5;231m[48;5;196m  click to answer  [0m[48;5;52m                               [38;5;245m  or  [1m[39mctrl+a g[0m[38;5;245m[48;5;52m [1m[39m ✕ [0m
+  [38;5;240mctrl+a . actions · ctrl+a k palette · ctrl+a d detach · ctrl+a s shell · ctrl+a o tools · ctrl+a A audit[39m

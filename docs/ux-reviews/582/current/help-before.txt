@@ -1,0 +1,72 @@
+Discobox runs coding agents in isolated sandboxes on this machine.
+
+Make a discobox with "discobox run":
+
+  discobox run . 'fix the failing tests'
+  discobox run -H codex -d . 'fix the failing tests'
+
+With no command it shows this help. Open the console with "discobox console".
+See "discobox run --help" for everything run takes.
+
+Usage:
+  discobox [command] [flags]
+
+Basic commands:
+  run, new, create, r, n    Run a prompt in a new discobox
+  ls, list                  List discoboxes
+  attach                    Open a discobox: its terminal and what runs beside it
+  exec                      Run a command in a discobox, or its login shell
+  start                     Start discoboxes
+  stop                      Stop discoboxes
+  restart                   Restart discoboxes
+  rm, delete, remove        Archive discoboxes
+  rename                    Name a discobox
+  tag                       Set and remove a discobox's tags
+
+Automation:
+  send                      Send text to a discobox's terminal
+  send-key                  Send key presses to a discobox's terminal
+  capture                   Print a discobox's screen and scrollback
+  wait                      Wait until a discobox is blocked, finished, idle, or exits
+  events                    Print discoboxes' state changes as they happen
+  adopt                     Ask a person to let this discobox lead another
+  api-access                Request and answer discobox API access
+  release                   Give a child discobox back
+
+Interface:
+  console, c                Open the discobox console
+
+Files & ports:
+  cp, scp                   Copy files to and from a discobox
+  push                      Push local commits to a discobox, for it to rebase onto
+  proxy                     Forward a discobox's listening ports to local ports
+  tools, tool, t            Run a development tool against a discobox
+
+Resources:
+  secret, secrets           Manage project secrets
+  trust, trusts             Manage the hosts discoboxes trust by a pinned certificate
+
+Setup:
+  configure, config         Set the default harness and manage what is saved to each
+  admin                     Manage advanced Discobox configuration
+
+Other:
+  completion                Generate shell completion script
+  version                   Print the client and server versions
+  help                      Help about any command
+
+Options:
+      --color WHEN                set color WHEN to auto, always, or never (default auto)
+      --debug                     print HTTP requests and the git commands run on this machine
+      --git-credentials strategy  git credential strategy: ask, lend, or local; overrides git.credentials in client.yaml (default ask)
+  -h, --help                      help for discobox
+  -o, --output FORMAT             output FORMAT: table or json (default table)
+      --server SERVER             connect to SERVER, an endpoint or a registered server's name; defaults to the primary "discobox admin remote primary
+" set, and to the local server when none is
+      --token TOKEN               bearer TOKEN for API requests
+  -v, --version                   print the client and server versions
+
+Use "discobox [command] --help" for more information about a command.
+walk$
+
+

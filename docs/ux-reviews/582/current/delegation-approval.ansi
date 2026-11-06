@@ -1,0 +1,40 @@
+
+
+
+      [38;5;220m╭──────────────────────────────────────────────────────────────────────────────────────────────────────────╮[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  [1m[38;5;220mAllow credential delegation?[0m                                                                    [38;5;240m2 of 2[39m  [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mBox[39m                   [1m[38;5;220msbx_1yf2kh0j9we53dt3[0m                                                              [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mReason (box's words)[39m  UX 582 synthetic use and delegation review                                        [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  This box may give access to boxes it leads; delegation grants no use to this box.                       [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  [1m[38;5;220mUse accepted for this answer. Credential and duration are locked. Nothing has been sent yet.[0m            [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240m── Grant restriction · Requested routes ──────────────────────────────────────────────────────────────[39m  [38;5;220m│[39m
+      [38;5;220m│[39m  [1m[38;5;220mHTTP tour.discobox.invalid[0m                                                                              [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240m  METHOD  PATH[39m                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  [1m[38;5;220m  GET     /demo[0m                                                                                         [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240m── Credential and parent ceilings ────────────────────────────────────────────────────────────────────[39m  [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mux582-demo[39m            GET tour.discobox.invalid/demo                                                    [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mMaximum duration[39m      1 hour                                                                            [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  Every independent restriction still applies. Approval cannot widen a parent delegation.                 [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m    [38;5;240mCredential[39m       [38;5;240mux582-demo[39m                                                                           [38;5;220m│[39m
+      [38;5;220m│[39m    [38;5;240mDuration[39m         [38;5;240m10 minutes[39m                                                                           [38;5;220m│[39m
+      [38;5;220m│[39m    [38;5;240mCustom duration[39m  [38;5;240mChoose Custom to type a duration[39m                                                     [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;220m❯[39m [1mScope[0m            [38;5;240m‹ [1m[38;5;220mRequested routes[0m[38;5;240m ›[39m                                                                 [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mKeep methods, paths, protocol restrictions and blocked routes[39m                                           [38;5;220m│[39m
+      [38;5;220m│[39m  [ Accept ]  [ Deny ]                                                                                    [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mTab / arrows move · Enter selects · Esc leaves waiting[39m                                                  [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m╰──────────────────────────────────────────────────────────────────────────────────────────────────────────╯[39m
+
+
+
+

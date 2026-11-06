@@ -1,0 +1,15 @@
+{
+  "slug": "ux-582",
+  "configuredFiles": [
+    {
+      "content": "{\n  \"theme\": \"light\"\n}\n",
+      "path": ".claude/settings.json"
+    }
+  ],
+  "fileOverrides": [
+    {
+      "content": "ux-582-personal",
+      "path": "personal.txt"
+    }
+  ]
+}

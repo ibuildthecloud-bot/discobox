@@ -1,0 +1,27 @@
+Press each KEY in a discobox's terminal, in order, without attaching. Keys are
+named as tmux names them:
+
+  Enter, Tab, Escape (Esc), BSpace, DC (Delete), Up, Down, Left, Right, Home,
+  End, PPage (PageUp), NPage (PageDown), Space, and C-a through C-z (^A too)
+
+A word that names no key is refused, never typed: text is "discobox send". It
+prints nothing; -o json prints the resume point.
+
+Examples:
+  discobox send-key mybox Enter
+  discobox send-key mybox C-c
+  discobox send-key mybox Escape Up Enter
+
+Usage:
+  discobox send-key DISCOBOX KEY... [flags]
+
+Options:
+  -h, --help               help for send-key
+  -t, --terminal TERMINAL  use TERMINAL (default primary)
+
+Global options:
+      --color WHEN         set color WHEN to auto, always, or never (default auto)
+      --debug              print HTTP requests and the git commands run on this machine
+  -o, --output FORMAT      output FORMAT: table or json (default table)
+      --server SERVER      connect to SERVER, an endpoint or a registered server's name; defaults to the primary "discobox admin remote primary" set, and to the local server when none is
+      --token TOKEN        bearer TOKEN for API requests

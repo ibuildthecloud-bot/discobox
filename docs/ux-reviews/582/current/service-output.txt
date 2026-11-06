@@ -1,0 +1,40 @@
+  discobox                        sbx_1yf2kh0j9we53dt3  main@dd09de6*  dirty  Desktop        cpu 0%    ctrl+a d detach
+╭─[ S1 UX background service ]─[ 0 UX review tour ]────────────────────────────────────────────────────────────────────╮
+│ UX-582-service-running                                                                                               │
+│ UX-582-service-running                                                                                               │
+│ UX-582-service-running                                                                                               │
+│ UX-582-service-running                                                                                               │
+│ UX-582-service-running                                                                                               │
+│ UX-582-service-running                                                                                               │
+│ UX-582-service-running                                                                                               │
+│ UX-582-service-running                                                                                               │
+│ UX-582-service-running                                                                                               │
+│ UX-582-service-running                                                                                               │
+│ UX-582-service-running                                                                                               │
+│ UX-582-service-running                                                                                               │
+│ UX-582-service-running                                                                                               │
+│ UX-582-service-running                                                                                               │
+│ UX-582-service-running                                                                                               │
+│ UX-582-service-running                                                                                               │
+│ UX-582-service-running                                                                                               │
+│ UX-582-service-running                                                                                               │
+│ UX-582-service-running                                                                                               │
+│ UX-582-service-running                                                                                               │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+│                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+  read-only · ctrl+a d detach · ctrl+a t stop · ctrl+a T start · ctrl+a S0 services · ctrl+a o tools · ctrl+a A audit

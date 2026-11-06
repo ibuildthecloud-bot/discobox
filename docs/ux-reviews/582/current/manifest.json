@@ -1,0 +1,265 @@
+{
+  "terminal": "Kitty 0.49.2",
+  "capture": "scrot -u on Xvfb :82, unmodified PNG",
+  "images": [
+    {
+      "file": "adopt-help.png",
+      "width": 1200,
+      "height": 1040,
+      "capturedAt": "2026-11-06T22:44:47.236202+00:00",
+      "sha256": "6cd0c0eb07093562c4c7efb627a61b92d1978bdc18b1ec72c01602de37c05289"
+    },
+    {
+      "file": "adoption-approval-80x24.png",
+      "width": 640,
+      "height": 384,
+      "capturedAt": "2026-11-06T22:53:12.768949+00:00",
+      "sha256": "ceea78722f8fde6ce4eb82909a93364fb3a323e858dea51242596d2ba64c05bd"
+    },
+    {
+      "file": "adoption-approval.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:53:00.983721+00:00",
+      "sha256": "5470bb954c0dccc27c3900e4bbbed13bac9b610a89ab434271012ea6a6a4ada4"
+    },
+    {
+      "file": "adoption-reviewed-80x24.png",
+      "width": 640,
+      "height": 384,
+      "capturedAt": "2026-11-06T22:53:36.822412+00:00",
+      "sha256": "197bd8c74faeb2fddc7b98e1f260eb38857651b7cd3eccf1fc42e5218886e3ad"
+    },
+    {
+      "file": "api-approval-80x24.png",
+      "width": 640,
+      "height": 384,
+      "capturedAt": "2026-11-06T22:52:20.880949+00:00",
+      "sha256": "c85355f4000dc8f87465e4c286c5c755f8a28108905300659de657b19066cc5f"
+    },
+    {
+      "file": "api-approval-before.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:50:11.528455+00:00",
+      "sha256": "e05e7f56a7bb62df48d701cb37e2a88332525a0d8ed22b219d03be246091ab38"
+    },
+    {
+      "file": "api-approval.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:52:11.994777+00:00",
+      "sha256": "b5f3c66c19424884ace7a33c7de038686e733dbfe83fff8cbfd3e12ece5d036c"
+    },
+    {
+      "file": "api-reviewed-80x24.png",
+      "width": 640,
+      "height": 384,
+      "capturedAt": "2026-11-06T22:52:39.835314+00:00",
+      "sha256": "83e3c8cb7a93b094ee4a110011f7f9c440144d122df4530c8f3f228dcf2d65b0"
+    },
+    {
+      "file": "attach-actions.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:53:58.784835+00:00",
+      "sha256": "f71ac7c6a84220a44dbfe084a3983db8c993ccebce13096b90ce6143ef5e7996"
+    },
+    {
+      "file": "attach-service-minimal.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:59:33.025277+00:00",
+      "sha256": "68cba619a0d9c38cc04504870a22a1e37b53b0f1f4aab7d9a05b1ba5563a02b4"
+    },
+    {
+      "file": "cold-exec.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:46:27.805141+00:00",
+      "sha256": "ed7c8d43e5120a6fdbc8c36c06d84f9a3fe4aba8edf870a30899a93343d4e6a3"
+    },
+    {
+      "file": "console.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:58:49.547439+00:00",
+      "sha256": "20dcb67363e777484443cb62b46c979a04514476987deb1388068e2c37022c11"
+    },
+    {
+      "file": "credential-approval.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:57:17.242430+00:00",
+      "sha256": "cfd62b2120457fcf6aa01b06bea231a5f6dc634f57d7b744a3240e0ce0546a93"
+    },
+    {
+      "file": "credential-confirmation.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:57:36.080023+00:00",
+      "sha256": "7cbb5e79588a885643b0b09c6aee9725fcdaea2b69038ad46c2a69916dd1f1c6"
+    },
+    {
+      "file": "delegation-approval.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:57:28.508877+00:00",
+      "sha256": "6710b173a910185d1ec55e2a656e033a9006b057f510daeb827211af1ab94aa5"
+    },
+    {
+      "file": "harness-band.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:56:04.198252+00:00",
+      "sha256": "222777e83dfe33889f2074ae68adca137f396595433da9f5c0682af16f5dd825"
+    },
+    {
+      "file": "harness-explainer.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T23:00:01.524826+00:00",
+      "sha256": "0dc3985c94b4e25813e62be016a52330504abd12ca9c386a151605af1f050f17"
+    },
+    {
+      "file": "harness-review.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:56:09.116347+00:00",
+      "sha256": "d60ade6099f118677d90fb286314cd916a8a4a3b0ef970fbb7bdfdeb22114622"
+    },
+    {
+      "file": "harnesses.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:56:29.462739+00:00",
+      "sha256": "7f3772a35978bfd1baf5eda65c8453f08a512e0b0f89bb7cf8fccec24287fd74"
+    },
+    {
+      "file": "help-before.png",
+      "width": 1200,
+      "height": 1152,
+      "capturedAt": "2026-11-06T22:43:50.013099+00:00",
+      "sha256": "10e5ee568592523ca349fdf0a30c4b717dc861f96bf6bba3f05a9293b408fff3"
+    },
+    {
+      "file": "help.png",
+      "width": 1200,
+      "height": 1184,
+      "capturedAt": "2026-11-06T22:59:48.035566+00:00",
+      "sha256": "0285b609738723e8fd37ecbd92335044876ed338a34c3094a1cb11e2f1b3d44b"
+    },
+    {
+      "file": "reset-overrides.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:56:37.965903+00:00",
+      "sha256": "d04a25b2ffcb399bfe5b0e768cf94da3f3bec11f74a22ad4e07861f107742511"
+    },
+    {
+      "file": "service-output.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:55:51.576009+00:00",
+      "sha256": "b6790c09bfb329dc8fbc896fdbd3cf010137493c1de62a5b677f1550b10c8f94"
+    },
+    {
+      "file": "service-selected.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:54:27.892396+00:00",
+      "sha256": "376142b0564c5efbbe09efb0a6c9ffa6a8f2088ec29ba724990c38818a26576f"
+    },
+    {
+      "file": "services-picker.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:54:15.784163+00:00",
+      "sha256": "fd6a8743f8b0b9c59242f5335bf3641b2f0254e8da8fc1bddccc2d613ab47c03"
+    },
+    {
+      "file": "tools-picker.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:48:04.860013+00:00",
+      "sha256": "ad4c2531fafd1a34fa80412ce12a66b84c3fac31bc7cc48000dd707efa589356"
+    },
+    {
+      "file": "tour-box.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:47:09.072937+00:00",
+      "sha256": "e334125256b969bf024903662642a56c010fce1529465829fb8966fe321a6451"
+    },
+    {
+      "file": "tour-continued.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:51:47.128298+00:00",
+      "sha256": "2e5fb4c1699edecb90dc73c957d001ad974744d528a079dab612658502fdbb90"
+    },
+    {
+      "file": "tour-diff-tool.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:48:25.053402+00:00",
+      "sha256": "4dda3c6b89c56c2a79d25d7a2273d3394d9aa88ef3fbf38a8c8a1f6e9bed6384"
+    },
+    {
+      "file": "tour-extra-shell.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:47:29.778337+00:00",
+      "sha256": "8d7f9497333f7d693358cc7c3734ce40dfe67645776dab227292e8f2cf80836d"
+    },
+    {
+      "file": "tour-greeting.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:46:43.267440+00:00",
+      "sha256": "47cde098eff7a5efcfccf72db8ee937972eec33d6bd12ec57f1a6edf4e4530d6"
+    },
+    {
+      "file": "tour-harnesses.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:51:33.700039+00:00",
+      "sha256": "e63e7ddf0b702bb80d3ebc04c03067d25077bf9a0d3726610469e5ec8b7275db"
+    },
+    {
+      "file": "tour-menu.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:46:53.452636+00:00",
+      "sha256": "588718f89ead02278c718977022a48ee8f8d3d7ca9536857583ebabe0e5034f9"
+    },
+    {
+      "file": "tour-requests.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:49:15.140368+00:00",
+      "sha256": "0f7821aef1688d23bd9e9eefb8b2b271b47c8d203c9790e62b42f132b5f2d18e"
+    },
+    {
+      "file": "tour-returning.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:51:41.482189+00:00",
+      "sha256": "f0d8456a0d2fdff7d3f20667f567acb82489ded375d09bbf4bf76f054964172b"
+    },
+    {
+      "file": "tour-shell.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:47:13.941031+00:00",
+      "sha256": "a6c1622ba4877ce86b013ed9c151c4b000413fdda68222452811224c501f3b4a"
+    },
+    {
+      "file": "trust-approval.png",
+      "width": 960,
+      "height": 640,
+      "capturedAt": "2026-11-06T22:58:26.071986+00:00",
+      "sha256": "2eebf63565e65b5f5e25d8cd094ae13754a845d6c1c7dc8566766fde0a40e45d"
+    }
+  ]
+}

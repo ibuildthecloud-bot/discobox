@@ -1,0 +1,40 @@
+
+
+
+      ╭──────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+      │                                                                                                          │
+      │  Allow credential delegation?                                                                    2 of 2  │
+      │                                                                                                          │
+      │  Box                   sbx_1yf2kh0j9we53dt3                                                              │
+      │  Reason (box's words)  UX 582 synthetic use and delegation review                                        │
+      │                                                                                                          │
+      │  This box may give access to boxes it leads; delegation grants no use to this box.                       │
+      │                                                                                                          │
+      │  Use accepted for this answer. Credential and duration are locked. Nothing has been sent yet.            │
+      │                                                                                                          │
+      │  ── Grant restriction · Requested routes ──────────────────────────────────────────────────────────────  │
+      │  HTTP tour.discobox.invalid                                                                              │
+      │    METHOD  PATH                                                                                          │
+      │    GET     /demo                                                                                         │
+      │                                                                                                          │
+      │  ── Credential and parent ceilings ────────────────────────────────────────────────────────────────────  │
+      │  ux582-demo            GET tour.discobox.invalid/demo                                                    │
+      │  Maximum duration      1 hour                                                                            │
+      │                                                                                                          │
+      │  Every independent restriction still applies. Approval cannot widen a parent delegation.                 │
+      │                                                                                                          │
+      │    Credential       ux582-demo                                                                           │
+      │    Duration         10 minutes                                                                           │
+      │    Custom duration  Choose Custom to type a duration                                                     │
+      │  ❯ Scope            ‹ Requested routes ›                                                                 │
+      │                                                                                                          │
+      │  Keep methods, paths, protocol restrictions and blocked routes                                           │
+      │  [ Accept ]  [ Deny ]                                                                                    │
+      │                                                                                                          │
+      │  Tab / arrows move · Enter selects · Esc leaves waiting                                                  │
+      │                                                                                                          │
+      ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+
+
+

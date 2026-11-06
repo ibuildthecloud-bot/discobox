@@ -1,0 +1,40 @@
+darren@sbx-1yf2kh0j9we53dt3:/workspace/tour$ 'discobox-primary-run' '/workspace/
+tour'
+Hi! Welcome to Discobox.
+
+You are inside a box: your own workspace for an agent and its tools.
+This menu runs before your selected harness. No agent account is needed
+for the tour; signing in comes when you choose to continue.
+
+Press Enter to begin. (Ctrl-C leaves you at a shell.)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ discobox  discobox-ai/tour                                                          ctrl+a . actions · ctrl+a d detach

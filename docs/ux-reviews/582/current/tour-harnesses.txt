@@ -1,0 +1,40 @@
+  discobox                            sbx_1yf2kh0j9we53dt3  blocked  main@dd09de6*           cpu 1%    ctrl+a d detach
+   ⚠  API access request  ·  discobox API access    click to answer                                   or  ctrl+a g  ✕
+╭──────────────────────────────────────────────────[ UX review tour ]──────────────────────────────────────────────────╮
+│ The only requested route is GET tour.discobox.invalid/demo.                                                          │
+│                                                                                                                      │
+│ Press Ctrl-A then g to open the inbox when the request appears.                                                      │
+│ You may deny it and still finish the tour. No delegation is requested.                                               │
+│                                                                                                                      │
+│ sreq_gst6e143q4xzch59 denied                                                                                         │
+│   use: denied                                                                                                        │
+│                                                                                                                      │
+│ If still pending, deny it in the inbox when done. Reopening this chapter                                             │
+│ checks the same request. This protocol has no requester-side cancellation.                                           │
+│                                                                                                                      │
+│ Press Enter to return to the menu.                                                                                   │
+│                                                                                                                      │
+│ Discobox tour — choose something to try                                                                              │
+│   [ ] 1 What this box is                                                                                             │
+│   [ ] 2 Open a shell                                                                                                 │
+│   [ ] 3 Tools                                                                                                        │
+│   [x] 4 Secrets and requests                                                                                         │
+│   [ ] 5 Harnesses                                                                                                    │
+│   [ ] 6 Leaving and returning                                                                                        │
+│   c  Continue to my harness                                                                                          │
+│   q  Exit tour (stay at a shell)                                                                                     │
+│                                                                                                                      │
+│ Choice: 5                                                                                                            │
+│                                                                                                                      │
+│ Your harness is the program you selected before opening this box.                                                    │
+│ Choose Continue to my harness when ready. An agent may ask you to sign                                               │
+│ in; the shell harness simply returns to a shell. The tour needs neither                                              │
+│ an agent subscription nor a sign-in.                                                                                 │
+│                                                                                                                      │
+│ Sign in and adjust agent settings inside a box. When the green changes                                               │
+│ to save band appears, press Ctrl-A then H to review what will be saved                                               │
+│ for future boxes. Review carefully before saving or discarding.                                                      │
+│                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+   ⚠  API access request  ·  discobox API access    click to answer                                   or  ctrl+a g  ✕
+  ctrl+a . actions · ctrl+a k palette · ctrl+a d detach · ctrl+a s shell · ctrl+a o tools · ctrl+a A audit

@@ -1,0 +1,40 @@
+
+
+
+
+
+
+
+
+      [38;5;220m╭──────────────────────────────────────────────────────────────────────────────────────────────────────────╮[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  [1m[38;5;220mUX review tour[0m                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;220m❯[39m [38;5;220ms[39m  [1mshell         [0m  [38;5;240mopen a shell in the box[39m                                                            [38;5;220m│[39m
+      [38;5;220m│[39m    [38;5;220mS[39m  [38;5;240mservices      [39m  [38;5;240mview output, start, stop or restart a service[39m                                      [38;5;220m│[39m
+      [38;5;220m│[39m    [38;5;220mo[39m  [38;5;240mtools         [39m  [38;5;240mopen a diff viewer, an editor or your IDE on the box[39m                               [38;5;220m│[39m
+      [38;5;220m│[39m    [38;5;220mA[39m  [38;5;240maudit         [39m  [38;5;240mfollow everything the box has done, as it happens[39m                                  [38;5;220m│[39m
+      [38;5;220m│[39m    [38;5;220mH[39m  [38;5;240mreview config [39m  [38;5;240mreview and save local settings and logins[39m                                          [38;5;220m│[39m
+      [38;5;220m│[39m    [38;5;220me[39m  [38;5;240mrename        [39m  [38;5;240mtype a new name for the box[39m                                                        [38;5;220m│[39m
+      [38;5;220m│[39m    [38;5;220mE[39m  [38;5;240msettings      [39m  [38;5;240medit its configured name, harness, egress and discobox API access[39m                  [38;5;220m│[39m
+      [38;5;220m│[39m    [38;5;240mu[39m  [38;5;240mupgrade       [39m  [38;5;240malready on the current image[39m                                                       [38;5;220m│[39m
+      [38;5;220m│[39m    [38;5;220mR[39m  [38;5;240mrepair        [39m  [38;5;240mrebuild the box on the current image, keeping its work[39m                             [38;5;220m│[39m
+      [38;5;220m│[39m    [38;5;220mt[39m  [38;5;240mstop          [39m  [38;5;240mpower the box off, keeping its disk[39m                                                [38;5;220m│[39m
+      [38;5;220m│[39m    [38;5;240mT[39m  [38;5;240mstart         [39m  [38;5;240malready on, or archived[39m                                                            [38;5;220m│[39m
+      [38;5;220m│[39m    [38;5;220mx[39m  [38;5;240marchive       [39m  [38;5;240mput it away, disk and all, reversibly[39m                                              [38;5;220m│[39m
+      [38;5;220m│[39m    [38;5;240mU[39m  [38;5;240munarchive     [39m  [38;5;240mnot archived[39m                                                                       [38;5;220m│[39m
+      [38;5;220m│[39m    [38;5;240mP[39m  [38;5;240mpurge         [39m  [38;5;240marchive it first — purge only takes archived boxes[39m                                 [38;5;220m│[39m
+      [38;5;220m│[39m    [38;5;220ml[39m  [38;5;240mall discoboxes[39m  [38;5;240mshow every discobox, with this one beside them[39m                                     [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m│[39m  [38;5;240mEnter runs the highlighted action · Esc cancels[39m                                                         [38;5;220m│[39m
+      [38;5;220m│[39m                                                                                                          [38;5;220m│[39m
+      [38;5;220m╰──────────────────────────────────────────────────────────────────────────────────────────────────────────╯[39m
+
+
+
+
+
+
+
+
+

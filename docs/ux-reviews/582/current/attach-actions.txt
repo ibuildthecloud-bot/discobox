@@ -1,0 +1,40 @@
+
+
+
+
+
+
+
+
+      ╭──────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+      │                                                                                                          │
+      │  UX review tour                                                                                          │
+      │                                                                                                          │
+      │  ❯ s  shell           open a shell in the box                                                            │
+      │    S  services        view output, start, stop or restart a service                                      │
+      │    o  tools           open a diff viewer, an editor or your IDE on the box                               │
+      │    A  audit           follow everything the box has done, as it happens                                  │
+      │    H  review config   review and save local settings and logins                                          │
+      │    e  rename          type a new name for the box                                                        │
+      │    E  settings        edit its configured name, harness, egress and discobox API access                  │
+      │    u  upgrade         already on the current image                                                       │
+      │    R  repair          rebuild the box on the current image, keeping its work                             │
+      │    t  stop            power the box off, keeping its disk                                                │
+      │    T  start           already on, or archived                                                            │
+      │    x  archive         put it away, disk and all, reversibly                                              │
+      │    U  unarchive       not archived                                                                       │
+      │    P  purge           archive it first — purge only takes archived boxes                                 │
+      │    l  all discoboxes  show every discobox, with this one beside them                                     │
+      │                                                                                                          │
+      │  Enter runs the highlighted action · Esc cancels                                                         │
+      │                                                                                                          │
+      ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,1 @@
+task: [check:dev-build] scripts/wnb-failure-reports.sh

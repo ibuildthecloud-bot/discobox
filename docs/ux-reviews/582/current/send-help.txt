@@ -1,0 +1,25 @@
+Type TEXT into a discobox's terminal without attaching: the words, joined by
+single spaces, all of them text. It arrives as a paste when the program asked
+for bracketed paste, so a message with newlines in it stays one message.
+
+It never presses Enter: submit with "discobox send-key DISCOBOX Enter". Then
+"discobox wait" counts from this input, so it never misses the answer. It
+prints nothing; -o json prints the resume point.
+
+Examples:
+  discobox send mybox 'run the tests again' && discobox send-key mybox Enter
+  discobox send mybox -t term_1 'ls -la'
+
+Usage:
+  discobox send DISCOBOX TEXT... [flags]
+
+Options:
+  -h, --help               help for send
+  -t, --terminal TERMINAL  use TERMINAL (default primary)
+
+Global options:
+      --color WHEN         set color WHEN to auto, always, or never (default auto)
+      --debug              print HTTP requests and the git commands run on this machine
+  -o, --output FORMAT      output FORMAT: table or json (default table)
+      --server SERVER      connect to SERVER, an endpoint or a registered server's name; defaults to the primary "discobox admin remote primary" set, and to the local server when none is
+      --token TOKEN        bearer TOKEN for API requests

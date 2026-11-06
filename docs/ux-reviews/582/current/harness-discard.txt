@@ -1,0 +1,7 @@
+{
+  "configRevision": 1,
+  "credentials": null,
+  "files": null,
+  "harnessConfigId": "harness_9x4na8gs5gqszvwv",
+  "state": "discarded"
+}

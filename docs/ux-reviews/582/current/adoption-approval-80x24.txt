@@ -1,0 +1,24 @@
+
+    ╭──────────────────────────────────────────────────────────────────────╮
+    │                                                                      │
+    │  Let UX review tour (sbx_1yf2kh0j9we53dt3) lead UX review shell (s…  │
+    │                                                                      │
+    │  Requesting box        UX review tour (sbx_1yf2kh0j9we53dt3)         │
+    │  Target box            UX review shell (sbx_gamrr9rqjnqygpe3)        │
+    │  Current parent        none                                          │
+    │  Reason (box's words)  UX 582 adoption approval walk                 │
+    │                                                                      │
+    │  ── Authority over this box ───────────────────────────────────────  │
+    │  Terminals/files       Run commands; read and write files; attach    │
+    │                        to and end execs; read and type into          │
+    │    … PgUp/PgDn to scroll                                             │
+    │                                                                      │
+    │                                                                      │
+    │  Scroll to the end to enable both decisions                          │
+    │  [ Accept ]  [ Deny ]                                                │
+    │                                                                      │
+    │  Tab / arrows move · Enter selects · Esc leaves waiting              │
+    │                                                                      │
+    ╰──────────────────────────────────────────────────────────────────────╯
+
+

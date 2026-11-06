@@ -1,0 +1,19 @@
+FIELD                   VALUE
+ID                      sreq_fhbth4zdsrbyes0d
+REQUESTED BY            agent:sbx_1yf2kh0j9we53dt3
+STATUS                  pending
+CREDENTIAL              ux582-demo
+ENV VAR                 UX582_TOKEN
+WHY                     UX 582 synthetic use and delegation review
+WANTED FOR              10 minutes
+USE                     pending · to use the credential itself
+USE ROUTES              GET tour.discobox.invalid/demo
+USE ASKED AS            replace · the discobox's whole use of the credential
+DELEGATE                pending · to give the credential to the discoboxes it leads, not to use it
+DELEGATE ROUTES         GET tour.discobox.invalid/demo
+USE HOLDS               nothing in UX582_TOKEN
+USE NEW ROUTES          GET tour.discobox.invalid/demo (compared as written, not as what they allow)
+USE AS ADD              an addition: these routes for 10 minutes; what it holds in UX582_TOKEN stays as it is
+USE AS REPLACE (asked)  its whole use of the credential: these routes for 10 minutes, in place of what it holds
+CREATED                 7 seconds ago
+UPDATED                 7 seconds ago

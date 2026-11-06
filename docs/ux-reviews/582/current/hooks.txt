@@ -1,0 +1,2 @@
+task: [check-hooks] go tool discobox-hooks check
+all hooks successful

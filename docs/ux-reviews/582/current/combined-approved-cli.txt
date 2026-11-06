@@ -1,0 +1,32 @@
+FIELD                                           VALUE
+ID                                              sreq_fhbth4zdsrbyes0d
+REQUESTED BY                                    agent:sbx_1yf2kh0j9we53dt3
+STATUS                                          approved
+CREDENTIAL                                      ux582-demo
+ENV VAR                                         UX582_TOKEN
+WHY                                             UX 582 synthetic use and delegation review
+WANTED FOR                                      10 minutes
+USE                                             approved · to use the credential itself
+USE ROUTES                                      GET tour.discobox.invalid/demo
+USE APPROVED SCOPE                              routes
+USE CREDENTIAL REVISION                         sec_h4b958k900k829xt / 1
+USE DELIVERY / MODE                             sentinel / replace
+USE GRANTED UNTIL                               8 minutes from now
+USE GRANTED secret sec_h4b958k900k829xt         GET tour.discobox.invalid/demo
+USE GRANTED binding bind_qxee4hn55hcc1w9g       GET tour.discobox.invalid/demo
+USE ASKED AS                                    replace · the discobox's whole use of the credential
+USE GRANTED AS                                  replace
+USE BINDING                                     bind_qxee4hn55hcc1w9g
+DELEGATE                                        approved · to give the credential to the discoboxes it leads, not to use it
+DELEGATE ROUTES                                 GET tour.discobox.invalid/demo
+DELEGATE APPROVED SCOPE                         routes
+DELEGATE CREDENTIAL REVISION                    sec_h4b958k900k829xt / 1
+DELEGATE DELIVERY / MODE                        none / replace
+DELEGATE GRANTED UNTIL                          8 minutes from now
+DELEGATE GRANTED secret sec_h4b958k900k829xt    GET tour.discobox.invalid/demo
+DELEGATE GRANTED binding bind_ff8xexwc4yktkd5a  GET tour.discobox.invalid/demo
+DELEGATE BINDING                                bind_ff8xexwc4yktkd5a
+SECRET                                          sec_h4b958k900k829xt
+DECIDED BY                                      user_default
+CREATED                                         3 minutes ago
+UPDATED                                         2 minutes ago

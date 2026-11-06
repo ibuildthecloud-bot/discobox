@@ -1,5 +1,8 @@
 # Live terminal screenshots
 
+These are historical screenshots. See the [release UX re-review](../current/README.md)
+for the experience after the owner's requested follow-ups.
+
 Captured on 2026-11-04 in **Kitty 0.41.1**, running the real Discobox CLI and
 console against the development server, Docker pool and three disposable boxes.
 Kitty rendered the live PTY, including terminal graphics, colors, hyperlinks

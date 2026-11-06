@@ -1,0 +1,40 @@
+
+
+
+
+      ╭──────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+      │                                                                                                          │
+      │  Allow discobox API access?                                                                              │
+      │                                                                                                          │
+      │  Box                   sbx_1yf2kh0j9we53dt3                                                              │
+      │  Server                                                                                                  │
+      │  Reason (box's words)  UX 582 approval walkthrough                                                       │
+      │                                                                                                          │
+      │  ── Project access ────────────────────────────────────────────────────────────────────────────────────  │
+      │  Discovery             List boxes and watch project events                                               │
+      │  Create                Launch boxes within its allowed egress, using project harness configs and their   │
+      │                        credentials                                                                       │
+      │                                                                                                          │
+      │  ── Authority over boxes it leads ─────────────────────────────────────────────────────────────────────  │
+      │  Terminals/files       Run commands; read and write files; read output and type input                    │
+      │  Lifecycle             Start, stop, restart, repair, upgrade and archive                                 │
+      │  Source/settings       Deliver source and edit metadata                                                  │
+      │  Services/ports        Inspect and control services; reach HTTP ports                                    │
+      │  Credentials           Answer eligible requests within its delegation                                    │
+      │                                                                                                          │
+      │  ── Limits ────────────────────────────────────────────────────────────────────────────────────────────  │
+      │  Management covers direct children in this project. Wider-egress children are read-only.                 │
+      │  Enabling API access grants no credential. Credential and egress restrictions still apply.               │
+      │  Access stays on until a person turns it off in Settings. Deny leaves access unchanged.                  │
+      │                                                                                                          │
+      │                                                                                                          │
+      │  Enter selects Accept                                                                                    │
+      │  [ Accept ]  [ Deny ]                                                                                    │
+      │                                                                                                          │
+      │  Tab / arrows move · Enter selects · Esc leaves waiting                                                  │
+      │                                                                                                          │
+      ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+
+
+

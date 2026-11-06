@@ -1,0 +1,40 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ╭──────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+      │                                                                                                          │
+      │  UX background service                                                                                   │
+      │                                                                                                          │
+      │  running                                                                                                 │
+      │                                                                                                          │
+      │  ❯ v  view output     show the service log                                                               │
+      │    s  start           run it, or leave it running                                                        │
+      │    t  stop            end its run and keep what it printed                                               │
+      │    R  restart         stop it if it is running, then start it                                            │
+      │                                                                                                          │
+      │  Enter runs the highlighted action · Esc cancels                                                         │
+      │                                                                                                          │
+      ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+
+
+
+
+
+
+
+
+
+
+
+

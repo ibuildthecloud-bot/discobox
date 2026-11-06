@@ -1,0 +1,39 @@
+Wait until something happens in a discobox's terminal, and say what.
+
+UNTIL is one of:
+  blocked[:KIND]   the agent is waiting on a person (KIND: permission, question, auth)
+  finished         the agent ended its turn
+  idle[=DURATION]  no output or input for DURATION (default 5s)
+  exit             the terminal's program exited
+  HOOK             a harness hook, such as Stop or Notification (hook:NAME
+                   for a hook named like one of the words above)
+
+blocked and finished are what the agent reports of itself; a harness that
+reports nothing is waited on by a HOOK, idle or exit. Repeat --until to wait
+for whichever comes first. By default only what happens after the last input
+sent to the terminal counts, so "send" then "wait" never misses the answer.
+Without --for, wait has no time limit; with it, wait exits 124 when DURATION
+passes. It prints what held, then the point a later --after resumes from.
+
+Examples:
+  discobox send mybox 'run the tests again' && discobox send-key mybox Enter
+  discobox wait mybox --until finished --until blocked
+  discobox wait mybox --until idle=10s --for 5m || echo timed out
+  discobox send-key mybox C-c
+
+Usage:
+  discobox wait DISCOBOX [flags]
+
+Options:
+      --after POINT        count only what happens after resume POINT
+      --for DURATION       give up after DURATION
+  -h, --help               help for wait
+  -t, --terminal TERMINAL  use TERMINAL (default primary)
+      --until UNTIL        wait for UNTIL (repeatable)
+
+Global options:
+      --color WHEN         set color WHEN to auto, always, or never (default auto)
+      --debug              print HTTP requests and the git commands run on this machine
+  -o, --output FORMAT      output FORMAT: table or json (default table)
+      --server SERVER      connect to SERVER, an endpoint or a registered server's name; defaults to the primary "discobox admin remote primary" set, and to the local server when none is
+      --token TOKEN        bearer TOKEN for API requests
