@@ -292,7 +292,7 @@ reconciles every pool.
 Both pool providers make the box with `poolruntime.ProvisionBox`
 (`poolruntime/box.go`), through `pool-agent/provisioner`, over the box as a
 `machine.Guest` — the Docker engine's container (`dockerworker/poolbox.go`),
-or the `vm` provider's machine: it places the agent, runs
+or a disco-vm driver's pool machine: it places the agent, runs
 `discobox-provision identity` and enrolls the public key it prints
 (`PoolMaker.Enroll`), places the bootstrap and the agent's environment
 (`bundle.BootstrapFile`, `bundle.EnvironmentFile`) together with every manifest
@@ -309,7 +309,7 @@ provider's configuration and the pool's own settings, such as
 `disableAgentEndpointTls` (`PlacementFingerprint`) — is provisioned again in
 its running box, its agent and proxy restarted for a moved placement
 (`RestartPoolUnits`), and the agent alone moving provisions nothing (§5). What else a provider places for its agent
-— the `vm` provider's provisioning key — goes in first
+— a disco-vm driver's provisioning key — goes in first
 (`poolruntime.PlaceBoxFiles`); see [discovm](discovm/DESIGN.md).
 
 ## Development Image Convergence

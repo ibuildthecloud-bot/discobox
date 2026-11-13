@@ -19,6 +19,7 @@ import (
 	"github.com/discobox-ai/discobox/server/internal/apperrors"
 	"github.com/discobox-ai/discobox/server/internal/auth"
 	"github.com/discobox-ai/discobox/server/internal/model"
+	sandbox "github.com/discobox-ai/discobox/server/internal/sandbox"
 )
 
 // This file is the exchange secret's half of renewal (ADR 26-10-08-452): the
@@ -118,20 +119,13 @@ func exchangeRecipe(ctx context.Context, secretType string, routes []model.Secre
 }
 
 // internalAddress reports whether an exchange may not be sent to ip: one only
-// the control plane's own network position reaches — loopback, private,
-// carrier-grade NAT, link-local, unspecified, or multicast. A recipe is
-// somebody's to write, and the server POSTing where they cannot, then reading
-// them the answer, is a reach they never had. It is a package var so tests can
-// exchange against an httptest server on loopback.
-var internalAddress = func(ip netip.Addr) bool {
-	ip = ip.Unmap()
-	return ip.IsLoopback() || ip.IsPrivate() || ip.IsLinkLocalUnicast() || ip.IsLinkLocalMulticast() ||
-		ip.IsInterfaceLocalMulticast() || ip.IsMulticast() || ip.IsUnspecified() || sharedAddressSpace.Contains(ip)
-}
-
-// sharedAddressSpace is RFC 6598's carrier-grade NAT range, which netip does
-// not count as private and which cloud providers use internally.
-var sharedAddressSpace = netip.MustParsePrefix("100.64.0.0/10")
+// the control plane's own network position reaches, which is any address that
+// is not sandbox.PublicAddr, the one rule a provider's endpoints are held to
+// too (ADR 26-11-11-080 §3). A recipe is somebody's to write, and the server
+// POSTing where they cannot, then reading them the answer, is a reach they
+// never had. It is a package var so tests can exchange against an httptest
+// server on loopback.
+var internalAddress = func(ip netip.Addr) bool { return !sandbox.PublicAddr(ip) }
 
 // refuseInternalTarget refuses a host that is, or resolves to, an internal
 // address. Resolving here catches a name pointed inward when a proxy does the
