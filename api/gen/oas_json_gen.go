@@ -32136,6 +32136,12 @@ func (s *ProviderConfigField) encodeFields(e *jx.Encoder) {
 		}
 	}
 	{
+		if s.Default.Set {
+			e.FieldStart("default")
+			s.Default.Encode(e)
+		}
+	}
+	{
 		if s.Description.Set {
 			e.FieldStart("description")
 			s.Description.Encode(e)
@@ -32162,6 +32168,12 @@ func (s *ProviderConfigField) encodeFields(e *jx.Encoder) {
 		}
 	}
 	{
+		if s.Privileged.Set {
+			e.FieldStart("privileged")
+			s.Privileged.Encode(e)
+		}
+	}
+	{
 		if s.Required.Set {
 			e.FieldStart("required")
 			s.Required.Encode(e)
@@ -32173,15 +32185,17 @@ func (s *ProviderConfigField) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfProviderConfigField = [8]string{
+var jsonFieldsNameOfProviderConfigField = [10]string{
 	0: "advanced",
-	1: "description",
-	2: "immutable",
-	3: "key",
-	4: "label",
-	5: "placeholder",
-	6: "required",
-	7: "type",
+	1: "default",
+	2: "description",
+	3: "immutable",
+	4: "key",
+	5: "label",
+	6: "placeholder",
+	7: "privileged",
+	8: "required",
+	9: "type",
 }
 
 // Decode decodes ProviderConfigField from json.
@@ -32189,7 +32203,7 @@ func (s *ProviderConfigField) Decode(d *jx.Decoder) error {
 	if s == nil {
 		return errors.New("invalid: unable to decode ProviderConfigField to nil")
 	}
-	var requiredBitSet [1]uint8
+	var requiredBitSet [2]uint8
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -32202,6 +32216,16 @@ func (s *ProviderConfigField) Decode(d *jx.Decoder) error {
 				return nil
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"advanced\"")
+			}
+		case "default":
+			if err := func() error {
+				s.Default.Reset()
+				if err := s.Default.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"default\"")
 			}
 		case "description":
 			if err := func() error {
@@ -32224,7 +32248,7 @@ func (s *ProviderConfigField) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"immutable\"")
 			}
 		case "key":
-			requiredBitSet[0] |= 1 << 3
+			requiredBitSet[0] |= 1 << 4
 			if err := func() error {
 				v, err := d.Str()
 				s.Key = string(v)
@@ -32236,7 +32260,7 @@ func (s *ProviderConfigField) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"key\"")
 			}
 		case "label":
-			requiredBitSet[0] |= 1 << 4
+			requiredBitSet[0] |= 1 << 5
 			if err := func() error {
 				v, err := d.Str()
 				s.Label = string(v)
@@ -32257,6 +32281,16 @@ func (s *ProviderConfigField) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"placeholder\"")
 			}
+		case "privileged":
+			if err := func() error {
+				s.Privileged.Reset()
+				if err := s.Privileged.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"privileged\"")
+			}
 		case "required":
 			if err := func() error {
 				s.Required.Reset()
@@ -32268,7 +32302,7 @@ func (s *ProviderConfigField) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"required\"")
 			}
 		case "type":
-			requiredBitSet[0] |= 1 << 7
+			requiredBitSet[1] |= 1 << 1
 			if err := func() error {
 				v, err := d.Str()
 				s.Type = string(v)
@@ -32288,8 +32322,9 @@ func (s *ProviderConfigField) Decode(d *jx.Decoder) error {
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
-	for i, mask := range [1]uint8{
-		0b10011000,
+	for i, mask := range [2]uint8{
+		0b00110000,
+		0b00000010,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.

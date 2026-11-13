@@ -21560,15 +21560,23 @@ func (*ProjectSkillsSource) createProjectSkillsSourceRes() {}
 
 // Ref: #/components/schemas/ProviderConfigField
 type ProviderConfigField struct {
-	Advanced    OptBool   `json:"advanced"`
+	Advanced OptBool `json:"advanced"`
+	// The value the provider takes when the field is unset, for a person to see; the provider applies it,
+	//  never the client.
+	Default     OptString `json:"default"`
 	Description OptString `json:"description"`
 	// The field cannot change while the provider instance has pools, because the pools' hosts were made
 	// by what it names.
-	Immutable   OptBool   `json:"immutable"`
+	Immutable OptBool `json:"immutable"`
+	// Where the field is in the config object: a dotted path, so driver.addr is addr in the config's
+	// driver object.
 	Key         string    `json:"key"`
 	Label       string    `json:"label"`
 	Placeholder OptString `json:"placeholder"`
-	Required    OptBool   `json:"required"`
+	// An endpoint the provider's secret fields are sent to. A write that sets or changes it must carry
+	// every secret field.
+	Privileged OptBool `json:"privileged"`
+	Required   OptBool `json:"required"`
 	// The type of the value: string, number, boolean, or secret. A secret field holds a credential,
 	// which is sealed in the provider row and never returned, so a client prompts for it without echoing
 	// it.
@@ -21578,6 +21586,11 @@ type ProviderConfigField struct {
 // GetAdvanced returns the value of Advanced.
 func (s *ProviderConfigField) GetAdvanced() OptBool {
 	return s.Advanced
+}
+
+// GetDefault returns the value of Default.
+func (s *ProviderConfigField) GetDefault() OptString {
+	return s.Default
 }
 
 // GetDescription returns the value of Description.
@@ -21605,6 +21618,11 @@ func (s *ProviderConfigField) GetPlaceholder() OptString {
 	return s.Placeholder
 }
 
+// GetPrivileged returns the value of Privileged.
+func (s *ProviderConfigField) GetPrivileged() OptBool {
+	return s.Privileged
+}
+
 // GetRequired returns the value of Required.
 func (s *ProviderConfigField) GetRequired() OptBool {
 	return s.Required
@@ -21618,6 +21636,11 @@ func (s *ProviderConfigField) GetType() string {
 // SetAdvanced sets the value of Advanced.
 func (s *ProviderConfigField) SetAdvanced(val OptBool) {
 	s.Advanced = val
+}
+
+// SetDefault sets the value of Default.
+func (s *ProviderConfigField) SetDefault(val OptString) {
+	s.Default = val
 }
 
 // SetDescription sets the value of Description.
@@ -21643,6 +21666,11 @@ func (s *ProviderConfigField) SetLabel(val string) {
 // SetPlaceholder sets the value of Placeholder.
 func (s *ProviderConfigField) SetPlaceholder(val OptString) {
 	s.Placeholder = val
+}
+
+// SetPrivileged sets the value of Privileged.
+func (s *ProviderConfigField) SetPrivileged(val OptBool) {
+	s.Privileged = val
 }
 
 // SetRequired sets the value of Required.
