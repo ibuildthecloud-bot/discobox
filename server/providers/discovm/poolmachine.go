@@ -9,6 +9,7 @@ import (
 	"log/slog"
 	"net"
 	"net/http"
+	neturl "net/url"
 	"slices"
 	"strconv"
 	"strings"
@@ -35,6 +36,11 @@ const (
 	// poolStopTimeout is how long a pool machine gets to power off in order
 	// before it is forced off.
 	poolStopTimeout = time.Minute
+	// privateReachTimeout bounds the server's dial of a pool machine's private
+	// URL when it checks it can reach a pool with no public URL
+	// (checkPrivateReach): a route that drops the dial is answered in this,
+	// not in the operating system's minutes.
+	privateReachTimeout = 10 * time.Second
 )
 
 // poolMachine hosts a pool in a disco-vm machine of its own, in the provider's
@@ -69,6 +75,9 @@ type poolMachine struct {
 	// what it prints for the operator reading it.
 	logs      func(sandbox.PoolLogOptions) []string
 	logSource string
+	// dial is how the server checks it reaches a pool machine's private URL
+	// (checkPrivateReach).
+	dial func(ctx context.Context, network, address string) (net.Conn, error)
 }
 
 func newPoolMachine(e *engine.Engine, cfg settings) *poolMachine {
@@ -82,6 +91,7 @@ func newPoolMachine(e *engine.Engine, cfg settings) *poolMachine {
 		shell:           []string{"/bin/bash", "-l"},
 		logs:            journalCommand,
 		logSource:       "pool machine journal",
+		dial:            (&net.Dialer{Timeout: privateReachTimeout}).DialContext,
 	}
 }
 
@@ -300,6 +310,15 @@ func (h *poolMachine) converge(ctx context.Context, pool *model.Pool, maker pool
 	if made || started {
 		markStarted(pool)
 	}
+	// A machine nothing has been placed on yet, or one forced, is checked to
+	// be reachable from this server before it is given a key: a pool with no
+	// public URL made on a server off its provider's private network fails
+	// with why, rather than registering and then never answering the server.
+	if pool.DisablePublicURL && (record.Box.Agent == "" || force) {
+		if err := h.checkPrivateReach(ctx, pool, inst); err != nil {
+			return err
+		}
+	}
 	guest, err := h.engine.Guest(ctx, inst)
 	if err != nil {
 		return fmt.Errorf("reach pool %s's machine: %w", pool.ID, notReachable(err))
@@ -387,12 +406,21 @@ func (h *poolMachine) retireKey(ctx context.Context, pool *model.Pool, guest mac
 // off the org's default one, so no other machine of the provider's reaches it
 // (ADR 26-10-23-551 §4). It is not isolated: boxd peers an isolated machine
 // only with machines that are not, so the pool's machine keeps what the
-// driver gives a machine (the pool's HostCredential says so). It asks for a
-// public URL, which the server reaches its agent at, not strictly: a driver
-// that gives none fails where the server dials it. A sandbox's machine asks
-// for none, strictly (disco-vm ADR 26-11-12-604).
+// driver gives a machine (the pool's HostCredential says so).
+//
+// It asks for a public URL, which the server reaches its agent at, not
+// strictly: a driver that gives none fails where the server dials it. A pool
+// that asks for none (DisablePublicURL) has it off, strictly: a driver that
+// gives every machine one refuses the create rather than making a machine the
+// internet reaches, though the pool's create refused that driver already
+// (withholdsPublicURL). A sandbox's machine asks for none, strictly (disco-vm
+// ADR 26-11-12-604).
 func (h *poolMachine) create(ctx context.Context, pool *model.Pool, scope string) (engine.Instance, error) {
-	inst, err := h.engine.Create(ctx, engine.CreateOptions{Name: scope, Networks: []string{scope}, URLs: machine.URLRequests{Public: machine.URLRequest{Mode: machine.URLOn}}})
+	public := machine.URLRequest{Mode: machine.URLOn}
+	if pool.DisablePublicURL {
+		public = machine.URLRequest{Mode: machine.URLOff, Strict: true}
+	}
+	inst, err := h.engine.Create(ctx, engine.CreateOptions{Name: scope, Networks: []string{scope}, URLs: machine.URLRequests{Public: public}})
 	if err != nil {
 		return engine.Instance{}, fmt.Errorf("create pool %s's machine from the %s driver's base: %w", pool.ID, h.engine.Driver.Name(), notReachable(err))
 	}
@@ -438,9 +466,13 @@ func (h *poolMachine) placement(ctx context.Context, pool *model.Pool, inst engi
 	// Where the server reaches the pool's agent, and where its sandboxes'
 	// machines reach the pool, from which the agent derives their endpoints
 	// and their fence (ADR 26-10-29-481 §§1–2). A driver with no path between
-	// its machines has no private URL, and carries no pool.
-	if bootstrap.PublicURL, err = h.engine.URL(ctx, inst); err != nil {
-		return poolruntime.BoxPlacement{}, fmt.Errorf("pool %s's machine's public URL: %w", pool.ID, notReachable(err))
+	// its machines has no private URL, and carries no pool. A pool whose
+	// machine has no public URL names none, and its sandboxes reach it at its
+	// private URL.
+	if !pool.DisablePublicURL {
+		if bootstrap.PublicURL, err = h.engine.URL(ctx, inst); err != nil {
+			return poolruntime.BoxPlacement{}, fmt.Errorf("pool %s's machine's public URL: %w", pool.ID, notReachable(err))
+		}
 	}
 	if bootstrap.PrivateURL, err = h.engine.PrivateURL(ctx, inst); err != nil {
 		return poolruntime.BoxPlacement{}, fmt.Errorf("pool %s's machine's private URL: %w", pool.ID, notReachable(err))
@@ -487,9 +519,11 @@ func (h *poolMachine) agentListenURL(ctx context.Context, inst engine.Instance) 
 }
 
 // acquireAgentClient reaches the pool agent at its machine's one URL (ADR
-// 26-10-09-106 §3): boxd's public HTTPS URL, the same across stop and start.
-// The URL needs no credential of the driver's; the agent authenticates every
-// caller but its health and metadata.
+// 26-10-09-106 §3): boxd's public HTTPS URL, the same across stop and start,
+// or, for a pool whose machine has no public URL (DisablePublicURL), its
+// private URL, which only a server on the provider's private network reaches
+// (agentURL). The URL needs no credential of the driver's; the agent
+// authenticates every caller but its health and metadata.
 //
 // A pool whose machine is gone is one its reconcile creates again, so on this
 // path that is the pool not reachable yet, which an explicit start waits out
@@ -503,11 +537,60 @@ func (h *poolMachine) acquireAgentClient(ctx context.Context, pool *model.Pool) 
 	if err != nil {
 		return nil, err
 	}
-	url, err := h.engine.URL(ctx, inst)
+	url, err := h.agentURL(ctx, pool, inst)
 	if err != nil {
 		return nil, fmt.Errorf("pool %s's machine: %w", pool.ID, notReachable(err))
 	}
 	return transport.NewHTTPClientLeaseWithBaseURL(http.DefaultClient, strings.TrimRight(url, "/"), nil), nil
+}
+
+// agentURL is where the server reaches the pool's agent: its machine's public
+// URL, or its private URL when the pool asked for no public one.
+func (h *poolMachine) agentURL(ctx context.Context, pool *model.Pool, inst engine.Instance) (string, error) {
+	if pool.DisablePublicURL {
+		return h.engine.PrivateURL(ctx, inst)
+	}
+	return h.engine.URL(ctx, inst)
+}
+
+// checkPrivateReach checks this server reaches a pool's machine at its private
+// URL, which is the only way it reaches a pool with no public URL: a dial
+// within privateReachTimeout that connects, or that the machine refuses, its
+// agent not listening yet, is reached. Anything else is the pool's error,
+// never sandbox.ErrPoolNotReachable, which the pool reconciler waits on
+// unseen: a name the server cannot resolve, or a route it does not have, is
+// the server being off the provider's private network, which waiting does not
+// mend, and the pool says so. A driver's service that does not answer for the
+// URL is waited on, as everywhere (notReachable).
+func (h *poolMachine) checkPrivateReach(ctx context.Context, pool *model.Pool, inst engine.Instance) error {
+	private, err := h.engine.PrivateURL(ctx, inst)
+	if err != nil {
+		return fmt.Errorf("pool %s's machine's private URL: %w", pool.ID, notReachable(err))
+	}
+	parsed, err := neturl.Parse(private)
+	if err != nil {
+		return fmt.Errorf("pool %s's machine's private URL %q: %w", pool.ID, private, err)
+	}
+	address := parsed.Host
+	if parsed.Port() == "" {
+		port := "80"
+		if parsed.Scheme == "https" {
+			port = "443"
+		}
+		address = net.JoinHostPort(parsed.Hostname(), port)
+	}
+	conn, err := h.dial(ctx, "tcp", address)
+	if err == nil {
+		_ = conn.Close()
+		return nil
+	}
+	if connectionRefused(err) {
+		return nil
+	}
+	if ctx.Err() != nil {
+		return ctx.Err()
+	}
+	return fmt.Errorf("pool %s has no public URL, and this server cannot reach its machine at its private URL %s, which only a server on the %s driver's private network can: %w", pool.ID, private, h.engine.Driver.Name(), err)
 }
 
 func (h *poolMachine) removePoolHost(ctx context.Context, pool *model.Pool) error {

@@ -8,6 +8,7 @@ import (
 
 	serverapi "github.com/discobox-ai/discobox/api/gen"
 	"github.com/discobox-ai/discobox/pkg/platform"
+	"github.com/discobox-ai/discobox/server/internal/model"
 	services "github.com/discobox-ai/discobox/server/internal/services"
 )
 
@@ -17,8 +18,8 @@ import (
 func TestCreatePoolNamesItsSandboxOS(t *testing.T) {
 	svc := newSizeFixture(t)
 	ctx := context.Background()
-	svc.providers.RegisterPoolOSValidator(sizedType, func(_ json.RawMessage, os string) error {
-		if os == platform.Darwin {
+	svc.providers.RegisterPoolValidator(sizedType, func(_ json.RawMessage, pool model.PoolManifest) error {
+		if pool.SandboxOS == platform.Darwin {
 			return nil
 		}
 		return errors.New("boots only darwin")

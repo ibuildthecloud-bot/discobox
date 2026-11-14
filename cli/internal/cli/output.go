@@ -395,6 +395,7 @@ func (a *App) writePool(cmd *cobra.Command, pool *apimodel.Pool) error {
 	fmt.Fprintf(tw, "SCHEDULABLE\t%t\n", pool.Schedulable)
 	fmt.Fprintf(tw, "CAPACITY\t%s\n", formatPoolCapacity(*pool))
 	fmt.Fprintf(tw, "AGENT TLS\t%s\n", formatPoolAgentTLS(*pool))
+	fmt.Fprintf(tw, "PUBLIC URL\t%s\n", formatPoolPublicURL(*pool))
 	if credential, ok := pool.HostCredential.Get(); ok {
 		fmt.Fprintf(tw, "HOST CREDENTIAL\t%s\n", formatPoolHostCredential(credential, time.Now()))
 	}
@@ -1359,6 +1360,16 @@ func routesText(routes []apimodel.SecretRoute) string {
 	// every caller: a request's routes and a child binding's are a
 	// discobox's own words (cli/REVIEW.md).
 	return terminalSafe(strings.Join(out, "; "))
+}
+
+// formatPoolPublicURL is whether the pool's machine has a public URL. A
+// server from before the setting says nothing, and its pools' machines have
+// one where their driver gives one.
+func formatPoolPublicURL(pool apimodel.Pool) string {
+	if pool.DisablePublicUrl.Or(false) {
+		return "off"
+	}
+	return "on"
 }
 
 // formatPoolAgentTLS is how the pool reaches its discoboxes' agents (ADR

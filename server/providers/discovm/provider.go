@@ -182,15 +182,17 @@ func validate(name string, data json.RawMessage) error {
 	return validateFor(s, isLocal(driver))
 }
 
-// PoolOSValidator is whether a pool on a provider of the named driver may name
-// os for its sandboxes: whether the driver boots that OS, as disco-vm reports
-// it (ADR 26-11-11-963 §1), and, on a driver reached at its URLs, fences its
-// machines (ADR 26-11-11-080 §1). Linux on every driver that boots it; hcs
-// boots neither, and its pools are refused until the Windows work 963 §13
-// defers; archil fences nothing, and every pool on it is refused, saying so,
-// when it is created rather than at its machine.
-func PoolOSValidator(name string) sandbox.PoolOSValidator {
-	return func(data json.RawMessage, os string) error {
+// PoolValidator is whether a provider of the named driver may host a new pool:
+// whether the driver boots the OS it names for its sandboxes, as disco-vm
+// reports it (ADR 26-11-11-963 §1), and, on a driver reached at its URLs,
+// fences its machines (ADR 26-11-11-080 §1); and, for a pool that asks its
+// machine for no public URL, whether the driver can withhold one
+// (withholdsPublicURL). Linux on every driver that boots it; hcs boots
+// neither, and its pools are refused until the Windows work 963 §13 defers;
+// archil fences nothing, and every pool on it is refused, saying so, when it
+// is created rather than at its machine.
+func PoolValidator(name string) sandbox.PoolValidator {
+	return func(data json.RawMessage, pool model.PoolManifest) error {
 		s, err := decode(name, data)
 		if err != nil {
 			return err
@@ -204,8 +206,30 @@ func PoolOSValidator(name string) sandbox.PoolOSValidator {
 				return err
 			}
 		}
-		return bootsOS(name, driver.Capabilities(), os)
+		if err := bootsOS(name, driver.Capabilities(), pool.SandboxOS); err != nil {
+			return err
+		}
+		if pool.DisablePublicURL {
+			return withholdsPublicURL(driver)
+		}
+		return nil
 	}
+}
+
+// withholdsPublicURL refuses a driver that cannot make a pool's machine
+// without a public URL and still reach it: one that gives every machine a
+// public URL (archil), or gives none to withhold (a held driver, docker), or
+// gives its machines no private path, which is where the server reaches a
+// machine without one (disco-vm's URLCapabilities). boxd alone takes it today.
+func withholdsPublicURL(driver machine.Driver) error {
+	urls := driver.Capabilities().URLs
+	if urls.Public != machine.URLOptional {
+		return fmt.Errorf("the %s driver cannot make a pool's machine without a public URL: it gives every machine one, or none to withhold", driver.Name())
+	}
+	if urls.Private == machine.URLNever {
+		return fmt.Errorf("the %s driver gives its machines no private URL, where the server reaches a pool's machine without a public one", driver.Name())
+	}
+	return nil
 }
 
 // fences refuses a driver reached at its URLs that cannot carry a pool: its
@@ -394,7 +418,7 @@ func Register(manager *sandbox.ProviderManager, poolManager poolruntime.PoolMana
 		manager.RegisterProviderDefinition(name, Definition(name))
 		manager.RegisterFactory(name, FactoryWithPoolManager(name, poolManager, hub, manager.EndpointPolicy))
 		manager.RegisterProviderConfigValidator(name, Validator(name))
-		manager.RegisterPoolOSValidator(name, PoolOSValidator(name))
+		manager.RegisterPoolValidator(name, PoolValidator(name))
 		for _, variable := range environment(name) {
 			if _, set := os.LookupEnv(variable); set {
 				slog.Warn("the server's environment sets a VM driver's variable, which it does not read: set the provider's field instead", "driver", name, "variable", variable)

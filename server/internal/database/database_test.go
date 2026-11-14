@@ -1817,6 +1817,55 @@ func TestMigrateLeavesExistingPoolsNamingNoSandboxOS(t *testing.T) {
 	}
 }
 
+// A pool made before pools could ask for no public URL gets the column false,
+// so its machine keeps the public URL it was made with and the server keeps
+// reaching its agent there, and nothing else about it changes (#1077).
+func TestMigrateKeepsExistingPoolsOnAPublicURL(t *testing.T) {
+	ctx := context.Background()
+	db, err := database.New(database.Config{Driver: gormdb.DriverSQLite, DSN: "sqlite3://" + filepath.Join(t.TempDir(), "discobox.db")})
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { _ = db.Close() })
+	if err := db.Migrate(ctx); err != nil {
+		t.Fatal(err)
+	}
+	project := model.Project{ID: "project-1", Name: "project"}
+	if err := db.Write.Create(&project).Error; err != nil {
+		t.Fatal(err)
+	}
+	provider := model.SandboxProviderInstance{ID: "provider-1", ProjectID: project.ID, Name: "provider", Type: "boxd"}
+	if err := db.Write.Create(&provider).Error; err != nil {
+		t.Fatal(err)
+	}
+	old := model.Pool{ID: "pool-old", ProjectID: project.ID, PoolManifest: model.PoolManifest{ProviderInstanceID: provider.ID, Name: "old", SandboxOS: "linux"}, Schedulable: true}
+	if err := db.Write.Create(&old).Error; err != nil {
+		t.Fatal(err)
+	}
+	// The schema that row was written under: no public URL setting.
+	if err := db.Write.Exec("ALTER TABLE pools DROP COLUMN disable_public_url").Error; err != nil {
+		t.Fatalf("drop pools.disable_public_url: %v", err)
+	}
+	var before model.Pool
+	if err := db.Write.Omit("disable_public_url").First(&before, "id = ?", old.ID).Error; err != nil {
+		t.Fatal(err)
+	}
+	if err := db.Migrate(ctx); err != nil {
+		t.Fatal(err)
+	}
+	var after model.Pool
+	if err := db.Write.First(&after, "id = ?", old.ID).Error; err != nil {
+		t.Fatal(err)
+	}
+	if after.DisablePublicURL {
+		t.Error("an existing pool lost its public URL")
+	}
+	before.UpdatedAt, after.UpdatedAt = time.Time{}, time.Time{}
+	if !reflect.DeepEqual(before, after) {
+		t.Errorf("pool changed by the migration:\nbefore %+v\nafter  %+v", before, after)
+	}
+}
+
 // A read DSN is a lagging replica only for Postgres: SQLite ignores it, so
 // CurrentRead stays on the read pool there rather than queueing on the one
 // write connection.

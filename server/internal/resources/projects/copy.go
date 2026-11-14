@@ -221,6 +221,8 @@ func (s *Service) copyPools(ctx context.Context, source *model.Project, project 
 			// A copy's sandboxes run the OS the pool's do; one from before
 			// pools named theirs is linux, which the copy names.
 			SandboxOs: serverapi.NewOptCreatePoolBodySandboxOs(serverapi.CreatePoolBodySandboxOs(cmp.Or(sourcePool.SandboxOS, platform.Linux))),
+			// A copy's host goes without a public URL where the pool's does.
+			DisablePublicUrl: serverapi.NewOptBool(sourcePool.DisablePublicURL),
 		})
 		if err != nil {
 			return fmt.Errorf("%s: %w", sourcePool.Name, err)

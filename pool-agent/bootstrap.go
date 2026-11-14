@@ -119,7 +119,9 @@ type Bootstrap struct {
 	// from outside the provider, the private one by the pool's sandboxes'
 	// machines. A RuntimeMachine pool derives its sandboxes' endpoints from
 	// them (ADR 26-10-29-481 §2): a private URL that differs from the public
-	// one is a direct path, one that does not is an edge.
+	// one is a direct path, one that does not is an edge. A machine made
+	// without a public URL, which its pool asked for (#1077), names none,
+	// and its private URL is a direct path.
 	PublicURL  string `json:"publicUrl,omitempty"`
 	PrivateURL string `json:"privateUrl,omitempty"`
 	// DisableAgentEndpointTLS has the pool reach its sandboxes' agents over
@@ -155,9 +157,9 @@ func (b Bootstrap) EffectiveRuntime() Runtime {
 
 // reachedThroughEdge reports a machine pool whose sandboxes reach it only at
 // its public URL, an edge: its driver gives its machines no other path (ADR
-// 26-10-29-481 §2).
+// 26-10-29-481 §2). A machine with no public URL is never reached through one.
 func (b Bootstrap) reachedThroughEdge() bool {
-	return b.EffectiveRuntime() == RuntimeMachine && b.PrivateURL == b.PublicURL
+	return b.EffectiveRuntime() == RuntimeMachine && b.PublicURL != "" && b.PrivateURL == b.PublicURL
 }
 
 // Validate checks the required pool bootstrap fields.
@@ -212,10 +214,15 @@ func (b Bootstrap) Validate() error {
 			}
 		}
 		// A driver with no path between its machines cannot carry a machine
-		// pool: its sandboxes could not reach it (ADR 26-10-29-481 §1).
-		for _, u := range []struct{ name, value string }{{"public", b.PublicURL}, {"private", b.PrivateURL}} {
-			if err := validateMachineURL(u.value); err != nil {
-				return fmt.Errorf("the %s runtime's %s URL: %w", RuntimeMachine, u.name, err)
+		// pool: its sandboxes could not reach it (ADR 26-10-29-481 §1). The
+		// public URL is the machine's when it has one: a pool can ask for
+		// none (#1077).
+		if err := validateMachineURL(b.PrivateURL); err != nil {
+			return fmt.Errorf("the %s runtime's private URL: %w", RuntimeMachine, err)
+		}
+		if b.PublicURL != "" {
+			if err := validateMachineURL(b.PublicURL); err != nil {
+				return fmt.Errorf("the %s runtime's public URL: %w", RuntimeMachine, err)
 			}
 		}
 	default:

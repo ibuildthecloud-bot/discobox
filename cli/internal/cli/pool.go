@@ -21,6 +21,9 @@ type poolOptions struct {
 	disableAgentEndpointTLS bool
 	// sandboxOS is the OS a new pool's sandboxes run (ADR 26-11-11-963 §1).
 	sandboxOS string
+	// disablePublicURL makes a new pool's machine without a public URL, so
+	// the server reaches its agent at its private URL (#1077).
+	disablePublicURL bool
 }
 
 func (a *App) newPoolCommand() *cobra.Command {
@@ -130,6 +133,9 @@ time and cannot be moved.`, Args: cobra.ExactArgs(1), RunE: func(cmd *cobra.Comm
 		if cmd.Flags().Changed("sandbox-os") {
 			body.SetSandboxOs(apiclientgen.NewOptCreatePoolBodySandboxOs(apiclientgen.CreatePoolBodySandboxOs(opts.sandboxOS)))
 		}
+		if cmd.Flags().Changed("disable-public-url") {
+			body.SetDisablePublicUrl(apiclientgen.NewOptBool(opts.disablePublicURL))
+		}
 		poolRes, err := client.CreatePool(cmd.Context(), body, apiclientgen.CreatePoolParams{ProjectId: projectID})
 		if err != nil {
 			return err
@@ -145,6 +151,7 @@ time and cannot be moved.`, Args: cobra.ExactArgs(1), RunE: func(cmd *cobra.Comm
 	_ = cmd.RegisterFlagCompletionFunc("provider", a.completeProviders)
 	cmd.Flags().StringVar(&opts.sandboxOS, "sandbox-os", "linux", "The OS the pool's discoboxes run: linux, or darwin on a VM provider whose driver boots macOS. It cannot change after the pool is created")
 	_ = cmd.RegisterFlagCompletionFunc("sandbox-os", cobra.FixedCompletions([]string{"linux", "darwin"}, cobra.ShellCompDirectiveNoFileComp))
+	cmd.Flags().BoolVar(&opts.disablePublicURL, "disable-public-url", false, "Make the pool's machine without a public URL, so the server reaches its agent at the machine's private URL: only for a server on the provider's private network, on a VM provider whose driver can withhold a public URL. It cannot change after the pool is created")
 	addPoolAttributeFlags(cmd, &opts)
 	return cmd
 }

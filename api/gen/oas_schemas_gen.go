@@ -1225,6 +1225,12 @@ type CreatePoolBody struct {
 	// Reach the pool's sandboxes' agents over plain HTTP instead of TLS the pool's CA issues (ADR
 	// 26-10-29-481 §3). Off by default.
 	DisableAgentEndpointTls OptBool `json:"disableAgentEndpointTls"`
+	// Create the pool's machine without a public URL, so nothing on the internet reaches the pool's
+	// agent; the server reaches it at the machine's private URL instead. Only for a server on the
+	// provider's private network, and only on a VM provider whose driver can withhold a machine's public
+	// URL; a pool the server cannot reach this way fails, saying why. Off by default. It cannot change
+	// after the pool is created.
+	DisablePublicUrl OptBool `json:"disablePublicUrl"`
 	// VCPUs for the pool's VM. Only a provider that sizes a VM per pool accepts it; zero leaves the size
 	// to the provider's configuration, then the host.
 	CpuVcpus OptFloat64 `json:"cpuVcpus"`
@@ -1256,6 +1262,11 @@ func (s *CreatePoolBody) GetSchema() OptURI {
 // GetDisableAgentEndpointTls returns the value of DisableAgentEndpointTls.
 func (s *CreatePoolBody) GetDisableAgentEndpointTls() OptBool {
 	return s.DisableAgentEndpointTls
+}
+
+// GetDisablePublicUrl returns the value of DisablePublicUrl.
+func (s *CreatePoolBody) GetDisablePublicUrl() OptBool {
+	return s.DisablePublicUrl
 }
 
 // GetCpuVcpus returns the value of CpuVcpus.
@@ -1301,6 +1312,11 @@ func (s *CreatePoolBody) SetSchema(val OptURI) {
 // SetDisableAgentEndpointTls sets the value of DisableAgentEndpointTls.
 func (s *CreatePoolBody) SetDisableAgentEndpointTls(val OptBool) {
 	s.DisableAgentEndpointTls = val
+}
+
+// SetDisablePublicUrl sets the value of DisablePublicUrl.
+func (s *CreatePoolBody) SetDisablePublicUrl(val OptBool) {
+	s.DisablePublicUrl = val
 }
 
 // SetCpuVcpus sets the value of CpuVcpus.
@@ -18136,6 +18152,10 @@ type Pool struct {
 	// change reaches a sandbox when its box is next made - a VM sandbox at its next start, a container
 	// when it is replaced.
 	DisableAgentEndpointTls OptBool `json:"disableAgentEndpointTls"`
+	// The pool's machine has no public URL, and the server reaches the pool's agent at the machine's
+	// private URL, which only a server on the provider's private network can. Named when the pool was
+	// created and never changed. Off, the default, gives the machine a public URL.
+	DisablePublicUrl OptBool `json:"disablePublicUrl"`
 	// VCPUs for the pool's VM. Only a provider that sizes a VM per pool accepts it; zero leaves the size
 	// to the provider's configuration, then the host.
 	CpuVcpus float64 `json:"cpuVcpus"`
@@ -18250,6 +18270,11 @@ func (s *Pool) GetSchema() OptURI {
 // GetDisableAgentEndpointTls returns the value of DisableAgentEndpointTls.
 func (s *Pool) GetDisableAgentEndpointTls() OptBool {
 	return s.DisableAgentEndpointTls
+}
+
+// GetDisablePublicUrl returns the value of DisablePublicUrl.
+func (s *Pool) GetDisablePublicUrl() OptBool {
+	return s.DisablePublicUrl
 }
 
 // GetCpuVcpus returns the value of CpuVcpus.
@@ -18460,6 +18485,11 @@ func (s *Pool) SetSchema(val OptURI) {
 // SetDisableAgentEndpointTls sets the value of DisableAgentEndpointTls.
 func (s *Pool) SetDisableAgentEndpointTls(val OptBool) {
 	s.DisableAgentEndpointTls = val
+}
+
+// SetDisablePublicUrl sets the value of DisablePublicUrl.
+func (s *Pool) SetDisablePublicUrl(val OptBool) {
+	s.DisablePublicUrl = val
 }
 
 // SetCpuVcpus sets the value of CpuVcpus.

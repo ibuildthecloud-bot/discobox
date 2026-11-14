@@ -66,6 +66,22 @@ func TestPoolHopOfAMachinePoolOnANetworkIsDirect(t *testing.T) {
 	}
 }
 
+// A machine pool made without a public URL is reached at its private URL,
+// directly, as one with both is: there is no edge for its sandboxes to tunnel
+// through (#1077).
+func TestPoolHopOfAMachinePoolWithoutAPublicURLIsDirect(t *testing.T) {
+	hop, err := resolvePoolHop(machineBootstrap("", "http://pool-1.boxd:7302"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if hop.form != hopDirect || hop.tunnelURL != "" || hop.endpoints.Address != "pool-1.boxd" || !hop.endpoints.DNSSystemResolver {
+		t.Fatalf("hop = %+v, want a direct one to the pool's private name", hop)
+	}
+	if hop.egress == nil || len(hop.egress.Allow) != 0 {
+		t.Fatalf("fence = %+v, want nothing beyond the pool's network", hop.egress)
+	}
+}
+
 // A machine pool reached only at its public URL, an edge, is tunneled to
 // through it, its sandboxes' machines reach that host alone, and its agents
 // serve plain HTTP, which is all an edge speaks to them, whatever the pool

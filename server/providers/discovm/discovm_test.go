@@ -366,15 +366,16 @@ func TestTheServerReadsNoDriverEnvironment(t *testing.T) {
 // boxd, which refuses darwin, and darwin on a driver that reports it, which is
 // vz's report, without a vz in this build (ADR 26-11-11-963 §1).
 func TestValidatePoolOSIsWhatTheDriverBoots(t *testing.T) {
-	if err := PoolOSValidator("boxd")(json.RawMessage(`{}`), "linux"); err != nil {
+	linux, darwin := model.PoolManifest{SandboxOS: "linux"}, model.PoolManifest{SandboxOS: "darwin"}
+	if err := PoolValidator("boxd")(json.RawMessage(`{}`), linux); err != nil {
 		t.Fatalf("a linux pool on boxd: %v", err)
 	}
-	if err := PoolOSValidator("boxd")(json.RawMessage(`{}`), "darwin"); err == nil || !strings.Contains(err.Error(), "does not boot darwin") {
+	if err := PoolValidator("boxd")(json.RawMessage(`{}`), darwin); err == nil || !strings.Contains(err.Error(), "does not boot darwin") {
 		t.Fatalf("a darwin pool on boxd = %v, want refused", err)
 	}
 	// archil fences nothing, so its pools are refused when made, saying so
 	// (ADR 26-11-11-080 §1).
-	if err := PoolOSValidator("archil")(json.RawMessage(`{"driver":{"apiKey":"key-k"}}`), "linux"); err == nil || !strings.Contains(err.Error(), "cannot isolate machines") {
+	if err := PoolValidator("archil")(json.RawMessage(`{"driver":{"apiKey":"key-k"}}`), linux); err == nil || !strings.Contains(err.Error(), "cannot isolate machines") {
 		t.Fatalf("a linux pool on archil = %v, want refused for its fence", err)
 	}
 	vz := machine.Capabilities{GuestOS: []machine.OS{machine.Darwin, machine.Linux}}
@@ -383,6 +384,46 @@ func TestValidatePoolOSIsWhatTheDriverBoots(t *testing.T) {
 			t.Fatalf("a %s pool on a driver that boots darwin and linux: %v", os, err)
 		}
 	}
+}
+
+// A pool asks its machine for no public URL only on a driver that can
+// withhold one and gives its machines a private URL, where the server then
+// reaches it: boxd. A driver that gives none to withhold, the fake one's
+// loopback, is refused, and so is one that gives every machine a public URL
+// or no private one (#1077).
+func TestValidatePoolWithoutAPublicURL(t *testing.T) {
+	private := model.PoolManifest{SandboxOS: "linux", DisablePublicURL: true}
+	if err := PoolValidator("boxd")(json.RawMessage(`{}`), private); err != nil {
+		t.Fatalf("a pool without a public URL on boxd: %v", err)
+	}
+	isolateStateRoot(t)
+	if err := PoolValidator("fake")(json.RawMessage(fakeInstance(t).Config), private); err == nil || !strings.Contains(err.Error(), "without a public URL") {
+		t.Fatalf("a pool without a public URL on the fake driver = %v, want refused", err)
+	}
+	for _, c := range []struct {
+		urls machine.URLCapabilities
+		want string
+	}{
+		{machine.URLCapabilities{Private: machine.URLAlways, Public: machine.URLAlways}, "without a public URL"},
+		{machine.URLCapabilities{Private: machine.URLAlways}, "without a public URL"},
+		{machine.URLCapabilities{Public: machine.URLOptional}, "no private URL"},
+	} {
+		if err := withholdsPublicURL(urlsDriver{urls: c.urls}); err == nil || !strings.Contains(err.Error(), c.want) {
+			t.Errorf("a driver giving URLs %+v = %v, want refused: %s", c.urls, err, c.want)
+		}
+	}
+}
+
+// urlsDriver is a driver that reports only the URLs it gives a machine.
+type urlsDriver struct {
+	machine.Driver
+	urls machine.URLCapabilities
+}
+
+func (urlsDriver) Name() string { return "urls" }
+
+func (d urlsDriver) Capabilities() machine.Capabilities {
+	return machine.Capabilities{URLs: d.urls}
 }
 
 // The factory the server registers builds a pool-backed provider over the

@@ -138,14 +138,14 @@ resolves the name itself and connects to the address it checked. A refused dial 
 
 A pool on a driver reached at its URLs that cannot fence its machines
 (`Capabilities.Isolation`; archil today) is refused when it is created, by
-the type's `PoolOSValidator` (`fences`), saying so (ADR 26-11-11-080 §1).
+the type's `PoolValidator` (`fences`), saying so (ADR 26-11-11-080 §1).
 
 The type cannot change, and no `driver` field can while the provider has
 pools: they decide where a pool's machines are, and only the driver that
 made a pool's host can find and remove it.
 
 A pool names the OS its sandboxes run when it is created (ADR 26-11-11-963
-§1). The type's `PoolOSValidator` takes the OSes the driver's
+§1). The type's `PoolValidator` takes the OSes the driver's
 `Capabilities().GuestOS` reports, never the driver's name: linux on every
 driver that boots it (no linked driver boots darwin; vz is not linked), and
 refuses a driver that cannot fence its pools (`fences`, above). hcs reports only windows,
@@ -185,7 +185,8 @@ as ADR 26-10-09-106 §1 places it:
   machine only with machines that are not, so it keeps what the driver gives
   a machine (its machine token, shown on the pool). It asks the driver for a
   public URL, not strictly (`CreateOptions.URLs`), which the server reaches
-  its agent at. The pool agent makes every sandbox's machine isolated on that
+  its agent at, unless the pool asked for none (`DisablePublicURL`, below).
+  The pool agent makes every sandbox's machine isolated on that
   network (ADR 26-10-23-551 §4) with its public URL off, strictly, so boxd
   gives it no URL beyond its private one (disco-vm ADR 26-11-12-604). A driver that cannot isolate
   (`Capabilities.Isolation`) makes no pool machine.
@@ -259,13 +260,45 @@ driver configuration without the secret (ADR 26-11-11-080 §6), the
 provider's `controlPlaneUrl` or, with none, the channel's socket, and where
 the agent listens: the driver's `Service.Listen` for the machine, which its one URL reaches (ADR
 26-10-27-345 §2's rule, for the pool agent). The pool agent is reached at that
-URL (`acquireAgentClient`, `Engine.URL`): boxd's public HTTPS URL, the same
-across stop and start. The bootstrap also names the machine's public and
-private URLs (`Engine.URL`, `Engine.PrivateURL`), from which the agent derives
-where its sandboxes reach it and what fences them (ADR 26-10-29-481 §§1–2);
-a driver whose machines have no private URL carries no pool. They are in the
-placement's fingerprint, so a machine whose URLs moved with a start — a local
-driver's loopback port — is placed again with its new ones; boxd's stay put.
+URL (`acquireAgentClient`, `agentURL`), as the pool's `DisablePublicURL`
+says:
+
+```mermaid
+flowchart LR
+  server["server"]
+  subgraph provider["provider's private network"]
+    machine["pool machine\n(pool agent)"]
+  end
+  server -- "public URL (default)\nEngine.URL: boxd's HTTPS URL" --> machine
+  server -. "DisablePublicURL\nEngine.PrivateURL: name.boxd" .-> machine
+```
+
+- **Public** (the default, and every pool from before the setting): the
+  machine is made with its public URL on, and the server dials `Engine.URL`,
+  boxd's public HTTPS URL, the same across stop and start.
+- **No public URL** (`DisablePublicURL`, set when the pool is created and
+  immutable, since the URLs are in the placement): the machine is made with
+  its public URL off, strictly, so nothing on the internet reaches the agent,
+  and the server dials `Engine.PrivateURL`, which only a server on the
+  provider's private network reaches. The type's `PoolValidator` takes it
+  only on a driver that can withhold a machine's public URL
+  (`URLCapabilities.Public` optional) and gives its machines a private one
+  (`withholdsPublicURL`): boxd, today. Before anything is placed on a machine
+  not provisioned yet, or on a forced pass, `converge` dials the private URL
+  (`checkPrivateReach`, bounded by `privateReachTimeout`): a connection, or a
+  refusal (the agent not listening yet), is reached; anything else — a name
+  the server cannot resolve, a route it lacks — fails the pool with why,
+  never as `sandbox.ErrPoolNotReachable`, which the reconciler would wait on
+  unseen. A pool already placed is not dialled again each pass, so a network
+  blip does not fail, and repair, a running pool.
+
+The bootstrap also names the machine's public and private URLs
+(`Engine.URL`, `Engine.PrivateURL`), from which the agent derives where its
+sandboxes reach it and what fences them (ADR 26-10-29-481 §§1–2); a pool with
+no public URL names only its private one, a direct path. A driver whose
+machines have no private URL carries no pool. They are in the placement's
+fingerprint, so a machine whose URLs moved with a start — a local driver's
+loopback port — is placed again with its new ones; boxd's stay put.
 
 `converge` runs on every reconcile, against the provider's own record on the
 pool's row (`poolRuntimeState` in `RuntimeState`: the machine, the pool's

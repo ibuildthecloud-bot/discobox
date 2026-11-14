@@ -1167,7 +1167,7 @@ the bootstrap, and `resolvePoolHop` derives from them, once, at start:
 
 | the pool's private URL | its sandboxes' endpoints | a sandbox machine's fence |
 | --- | --- | --- |
-| not its public URL: a direct path | `https://discobox-pool-proxy:<port>`, as on a Docker pool, with the private URL's host as discobox's answer for the name (`PoolEndpoints.Address`), which the sandbox's bridges dial in its place and resolve through the provider at each dial | nothing beyond the pool's network |
+| not its public URL, or with no public URL (a pool that asked for none): a direct path | `https://discobox-pool-proxy:<port>`, as on a Docker pool, with the private URL's host as discobox's answer for the name (`PoolEndpoints.Address`), which the sandbox's bridges dial in its place and resolve through the provider at each dial | nothing beyond the pool's network |
 | its public URL: an edge (no driver reaches it: it would reach each sandbox at its machine's public URL, which a sandbox's machine asks off, strictly; #1053) | `wss://<host>/tunnel/<service>`, the tunnel of [Pools Behind An Edge](#pools-behind-an-edge), carried from the agent's own listener to the tunnel listener (`TunnelForwarder`), since an edge reaches that port alone | the edge's host alone |
 
 The names are discobox's own, as a private DNS would answer them: the

@@ -171,6 +171,10 @@ not backfilled: empty is linux, which every pool from before it is, and leaves
 its platform its agent's to declare as before. Writing `linux` into it would
 hold an existing pool's agent to a check it was never made under.
 
+`pools.disable_public_url` is added by `AutoMigrate` false and not
+backfilled: every pool from before it was made with a public URL, which false
+keeps, and the server keeps reaching its agent there.
+
 The pools' image kind column (ADR 26-10-09-106 §4) is backfilled where there
 is nothing to guess: every pool from before kinds is OCI. Its default is empty
 — a pool created since is not known to run OCI images until its agent says —

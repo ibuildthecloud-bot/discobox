@@ -657,6 +657,15 @@ type PoolManifest struct {
 	// pool made before pools named one: it hosts linux, and its platform is
 	// still whatever its agent declares.
 	SandboxOS string `gorm:"column:sandbox_os;not null;type:text;default:''" json:"sandboxOs,omitempty" enum:"linux,darwin" doc:"The operating system the pool's sandboxes run: linux, or darwin on a VM driver that boots macOS. Named when the pool is created and immutable. Absent on a pool made before pools named one, which hosts linux."`
+	// DisablePublicURL has the pool's machine made without a public URL, so
+	// the server reaches the pool's agent at the machine's private URL, which
+	// only a server on the provider's private network can (#1077). Off, the
+	// zero value, is a public URL: every pool from before the setting, and
+	// every pool made now that does not ask. Only a provider whose driver can
+	// withhold a machine's public URL takes it (PoolValidator). It is
+	// immutable after create: the URLs are in the pool's placement, so a
+	// change would make its machine again.
+	DisablePublicURL bool `gorm:"column:disable_public_url;not null;default:false" json:"disablePublicUrl" doc:"The pool's machine has no public URL, and the server reaches the pool's agent at the machine's private URL, which only a server on the provider's private network can. Named when the pool was created and never changed. Off, the default, gives the machine a public URL."`
 }
 
 // PoolHostCredential is a credential of its provider's that a pool's host

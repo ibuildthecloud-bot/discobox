@@ -155,7 +155,10 @@ func TestBootstrapValidatesItsRuntime(t *testing.T) {
 		{name: "machine", runtime: poolagent.RuntimeMachine, driver: "boxd", pool: "pool-1", public: "https://pool-1.boxd.sh", private: "http://pool-1.boxd:7302"},
 		{name: "machine behind an edge alone", runtime: poolagent.RuntimeMachine, driver: "boxd", pool: "pool-1", public: "https://pool-1.boxd.sh", private: "https://pool-1.boxd.sh"},
 		{name: "machine without a private URL", runtime: poolagent.RuntimeMachine, driver: "boxd", pool: "pool-1", public: "https://pool-1.boxd.sh", wantErr: "private URL"},
-		{name: "machine without a public URL", runtime: poolagent.RuntimeMachine, driver: "boxd", pool: "pool-1", private: "http://pool-1.boxd:7302", wantErr: "public URL"},
+		// A pool can ask its machine for no public URL: its private one is all
+		// it is reached at.
+		{name: "machine without a public URL", runtime: poolagent.RuntimeMachine, driver: "boxd", pool: "pool-1", private: "http://pool-1.boxd:7302"},
+		{name: "machine without any URL", runtime: poolagent.RuntimeMachine, driver: "boxd", pool: "pool-1", wantErr: "private URL"},
 		{name: "machine with a URL that is not http", runtime: poolagent.RuntimeMachine, driver: "boxd", pool: "pool-1", public: "https://pool-1.boxd.sh", private: "tcp://pool-1.boxd:7302", wantErr: "private URL"},
 		{name: "machine with a URL that names a path", runtime: poolagent.RuntimeMachine, driver: "boxd", pool: "pool-1", public: "https://pool-1.boxd.sh/agent", private: "http://pool-1.boxd:7302", wantErr: "public URL"},
 		{name: "machine on the provider's driver configuration", runtime: poolagent.RuntimeMachine, driver: "boxd", pool: "pool-1", public: "https://pool-1.boxd.sh", private: "http://pool-1.boxd:7302", config: `{"region":"fra","tokenUrl":"https://app.example.com/token"}`},

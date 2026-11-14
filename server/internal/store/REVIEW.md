@@ -44,3 +44,7 @@
   brings, still reports its own platform, and recording it would turn a darwin
   pool into a linux one and place sandboxes by the wrong platform. Nor does
   `UpdatePool` write `sandbox_os`: it is immutable after create.
+
+- `UpdatePool` never writes `disable_public_url`: it is immutable after
+  create, since the pool's machine URLs are in its placement and the server
+  dials its agent by it.

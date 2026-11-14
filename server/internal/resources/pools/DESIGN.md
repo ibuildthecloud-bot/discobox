@@ -244,7 +244,7 @@ corrected.
 
 A pool made now names the OS its sandboxes run (`SandboxOS`, ADR
 26-11-11-963 §1): `linux`, the default, or another OS. A provider type that
-registers a `PoolOSValidator` decides which its instance boots — the vm
+registers a `PoolValidator` decides which its instance boots — the vm
 provider asks its driver's capabilities: linux on a driver that boots it,
 darwin on vz, nothing on hcs — and any other type takes only `linux`. It is in
 the manifest, set at create and never updated (`store.UpdatePool` does not
@@ -261,6 +261,16 @@ pool into a linux one; a sandbox waiting on the pool waits as on one coming up.
 A pool from
 before pools named an OS has it empty, which is linux, and takes what its
 agent declares as above.
+
+A pool may ask its host for no public URL when it is created
+(`DisablePublicURL`): the server then reaches its agent at the machine's
+private URL, which only a server on the provider's private network can. The
+same `PoolValidator` decides it, with the OS, from the whole manifest
+(`ProviderManager.ValidatePool`); a type that registers none refuses it,
+having no public URL to withhold, and the vm provider takes it only on a
+driver that can withhold one ([discovm](../../../providers/discovm/DESIGN.md#the-pools-box)).
+It is set at create and never updated (`store.UpdatePool` does not write it):
+the URLs are in the host's placement, so a change would make the host again.
 
 The migration does not guess a pool's platform: a pool from before platforms
 has none until its agent's first report after the upgrade, which is the report

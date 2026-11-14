@@ -54,10 +54,6 @@ func resolvePoolHop(bootstrap Bootstrap) (poolHop, error) {
 		}
 		return poolHop{endpoints: proxyagent.PoolEndpoints(tunnelURL), tunnelURL: tunnelURL, agentTLS: agentTLS}, nil
 	}
-	public, err := url.Parse(bootstrap.PublicURL)
-	if err != nil {
-		return poolHop{}, fmt.Errorf("the pool's public URL: %w", err)
-	}
 	private, err := url.Parse(bootstrap.PrivateURL)
 	if err != nil {
 		return poolHop{}, fmt.Errorf("the pool's private URL: %w", err)
@@ -74,6 +70,10 @@ func resolvePoolHop(bootstrap Bootstrap) (poolHop, error) {
 	// No path between the driver's machines but the public URL, an edge: the
 	// sandboxes tunnel through it, with their mTLS inside, and reach nothing
 	// else on the internet.
+	public, err := url.Parse(bootstrap.PublicURL)
+	if err != nil {
+		return poolHop{}, fmt.Errorf("the pool's public URL: %w", err)
+	}
 	if public.Scheme != "https" {
 		return poolHop{}, fmt.Errorf("the pool's machine is reached only at %s, which is not https, so no tunnel can be carried through it", bootstrap.PublicURL)
 	}

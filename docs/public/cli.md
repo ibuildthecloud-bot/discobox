@@ -2329,6 +2329,7 @@ discobox admin pool create NAME [flags]
 | --cpu-vcpus | float64 | 0 | vCPUs for the pool's VM, on providers that size a VM per pool (0 = provider and host default) |
 | --debug | bool | false | print HTTP requests and the git commands run on this machine Value when passed without an argument: true. |
 | --disable-agent-endpoint-tls | bool | false | Reach the pool's discoboxes' agents over plain HTTP instead of TLS; a discobox takes a change when its box is next made (a VM discobox at its next start, a container when it is replaced) Value when passed without an argument: true. |
+| --disable-public-url | bool | false | Make the pool's machine without a public URL, so the server reaches its agent at the machine's private URL: only for a server on the provider's private network, on a VM provider whose driver can withhold a public URL. It cannot change after the pool is created Value when passed without an argument: true. |
 | --help, -h | bool | false | help for create Value when passed without an argument: true. |
 | --memory | size |  | Memory for the pool's VM, such as 8g or 512m, on providers that size a VM per pool (0 = provider and host default) |
 | --output, -o | string | table | output &#96;FORMAT&#96;: table or json |

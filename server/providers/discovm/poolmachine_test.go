@@ -9,9 +9,12 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"net"
+	"os"
 	"slices"
 	"strings"
 	"sync"
+	"syscall"
 	"testing"
 	"time"
 
@@ -63,9 +66,14 @@ type poolTestDriver struct {
 	// attachErrs, while any are left, is what each Attach answers in turn,
 	// a nil passing it on: the driver's service failing one call of several.
 	attachErrs []error
-	// fences is each machine's isolation and networks, by ID, as Create was
-	// asked for them: the fake driver under this one keeps neither.
+	// fences is each machine's isolation, networks and URL requests, by ID,
+	// as Create was asked for them: the fake driver under this one keeps
+	// none of them.
 	fences map[string]machine.InstanceSpec
+	// withholdsPublic makes the driver one that gives a machine its public
+	// URL or withholds it, as boxd does: a machine made with its public URL
+	// asked off has none, and is reached at its private URL alone.
+	withholdsPublic bool
 }
 
 func (d *poolTestDriver) Name() string {
@@ -78,14 +86,31 @@ func (d *poolTestDriver) Name() string {
 func (d *poolTestDriver) Capabilities() machine.Capabilities {
 	caps := d.Driver.Capabilities()
 	caps.Isolation = true
+	if d.withholdsPublic {
+		caps.URLs.Public = machine.URLOptional
+	}
 	return caps
+}
+
+func (d *poolTestDriver) Service(ctx context.Context, inst machine.Instance) (machine.Service, error) {
+	service, err := d.Driver.Service(ctx, inst)
+	if err != nil || !d.withholdsPublic {
+		return service, err
+	}
+	d.mu.Lock()
+	fence := d.fences[inst.ID]
+	d.mu.Unlock()
+	if fence.URLs.Public.Mode == machine.URLOff {
+		service.URL = ""
+	}
+	return service, nil
 }
 
 func (d *poolTestDriver) Create(ctx context.Context, spec machine.InstanceSpec) (machine.Instance, error) {
 	d.mu.Lock()
 	d.created = append(d.created, spec)
 	d.mu.Unlock()
-	fence := machine.InstanceSpec{Isolated: spec.Isolated, Networks: spec.Networks}
+	fence := machine.InstanceSpec{Isolated: spec.Isolated, Networks: spec.Networks, URLs: spec.URLs}
 	spec.Isolated, spec.Networks = false, nil
 	inst, err := d.Driver.Create(ctx, spec)
 	if err != nil {
@@ -1103,5 +1128,97 @@ func TestFakePoolMachineGuestWhileTheServiceDrops(t *testing.T) {
 	}
 	if err := r.EnsurePool(ctx, nil, nil, pool, newTestMaker(), nil); err != nil {
 		t.Errorf("EnsurePool() once the service is back = %v, want nil", err)
+	}
+}
+
+// A pool that asks for no public URL has its machine made with the public URL
+// off, strictly; names none in its bootstrap, so its sandboxes reach it at its
+// private URL; and is reached by the server at its private URL (#1077).
+func TestFakePoolMachineWithoutAPublicURL(t *testing.T) {
+	r, driver := newFakePool(t, "")
+	driver.withholdsPublic = true
+	ctx := context.Background()
+	pool := &model.Pool{ID: "pool_0123456789abcdef", ProjectID: "project-1", PoolManifest: model.PoolManifest{DisablePublicURL: true}}
+	t.Cleanup(func() { _ = r.RemovePool(context.Background(), nil, nil, pool) })
+	var dialed []string
+	host := r.host.(*poolMachine)
+	dial := host.dial
+	host.dial = func(ctx context.Context, network, address string) (net.Conn, error) {
+		dialed = append(dialed, address)
+		return dial(ctx, network, address)
+	}
+	if err := r.EnsurePool(ctx, nil, nil, pool, newTestMaker(), nil); err != nil {
+		t.Fatalf("EnsurePool() error = %v", err)
+	}
+	if len(driver.created) != 1 || driver.created[0].URLs.Public != (machine.URLRequest{Mode: machine.URLOff, Strict: true}) {
+		t.Fatalf("created %+v, want one machine with its public URL off, strictly", driver.created)
+	}
+	inst, err := host.instance(ctx, pool)
+	if err != nil {
+		t.Fatal(err)
+	}
+	private, err := r.engine.PrivateURL(ctx, inst)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := r.engine.URL(ctx, inst); err == nil {
+		t.Fatal("the machine has a public URL")
+	}
+	if len(dialed) != 1 || !strings.Contains(private, dialed[0]) {
+		t.Fatalf("dialed %q, want the machine's private URL %s checked once, before anything was placed", dialed, private)
+	}
+	if driver.applies() != 1 {
+		t.Fatalf("applied %d times, want once", driver.applies())
+	}
+	if bootstrap := driver.applied[0]; bootstrap.PublicURL != "" || bootstrap.PrivateURL != private {
+		t.Fatalf("bootstrap URLs = public %q private %q, want no public URL and the private one %s", bootstrap.PublicURL, bootstrap.PrivateURL, private)
+	}
+	lease, err := r.AcquirePoolAgentClient(ctx, pool)
+	if err != nil {
+		t.Fatalf("AcquirePoolAgentClient() error = %v", err)
+	}
+	if lease.BaseURL != strings.TrimRight(private, "/") {
+		t.Fatalf("lease base URL = %q, want the machine's private URL %q", lease.BaseURL, private)
+	}
+	// A pass with nothing moved checks nothing again.
+	if err := r.EnsurePool(ctx, nil, nil, pool, newTestMaker(), nil); err != nil {
+		t.Fatalf("EnsurePool() again error = %v", err)
+	}
+	if len(dialed) != 1 {
+		t.Fatalf("dialed %q, want no check of a pool already placed", dialed)
+	}
+}
+
+// A pool with no public URL on a server that cannot reach its machine's
+// private URL fails with why, before its machine is given a key or anything
+// else, and not as a pool coming up, which the pool reconciler would wait on
+// unseen (#1077). A machine that refuses the dial, its agent not listening
+// yet, was reached.
+func TestFakePoolMachineWithoutAPublicURLTheServerCannotReach(t *testing.T) {
+	r, driver := newFakePool(t, "")
+	driver.withholdsPublic = true
+	ctx := context.Background()
+	pool := &model.Pool{ID: "pool_0123456789abcdef", ProjectID: "project-1", PoolManifest: model.PoolManifest{DisablePublicURL: true}}
+	t.Cleanup(func() { _ = r.RemovePool(context.Background(), nil, nil, pool) })
+	host := r.host.(*poolMachine)
+	host.dial = func(_ context.Context, network, _ string) (net.Conn, error) {
+		return nil, &net.OpError{Op: "dial", Net: network, Err: &net.DNSError{Err: "no such host", Name: "pool-0123456789abcdef.boxd", IsNotFound: true}}
+	}
+	err := r.EnsurePool(ctx, nil, nil, pool, newTestMaker(), nil)
+	if err == nil || errors.Is(err, sandbox.ErrPoolNotReachable) || !strings.Contains(err.Error(), "cannot reach its machine at its private URL") || !strings.Contains(err.Error(), "no such host") {
+		t.Fatalf("EnsurePool() error = %v, want the pool's error saying the server cannot reach its private URL, and why", err)
+	}
+	if driver.applies() != 0 || len(issuedKeys(t, r, pool)) != 0 {
+		t.Fatal("a machine the server cannot reach was placed or given a key")
+	}
+
+	host.dial = func(_ context.Context, network, _ string) (net.Conn, error) {
+		return nil, &net.OpError{Op: "dial", Net: network, Err: os.NewSyscallError("connect", syscall.ECONNREFUSED)}
+	}
+	if err := r.EnsurePool(ctx, nil, nil, pool, newTestMaker(), nil); err != nil {
+		t.Fatalf("EnsurePool() with the dial refused error = %v, want the machine reached", err)
+	}
+	if driver.applies() != 1 {
+		t.Fatalf("applied %d times, want once", driver.applies())
 	}
 }
