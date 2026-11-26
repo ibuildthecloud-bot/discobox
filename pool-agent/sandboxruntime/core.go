@@ -11,6 +11,7 @@ import (
 	"github.com/discobox-ai/discobox/pkg/sandboxconfig"
 	"github.com/discobox-ai/discobox/pkg/sandboxpath"
 	"github.com/discobox-ai/discobox/pool-agent/gitcache"
+	"github.com/discobox-ai/discobox/pool-agent/handover"
 )
 
 // sandboxCore is the half of a runtime that is the same whatever a sandbox
@@ -47,7 +48,8 @@ type sandboxCore struct {
 	// gitCache is this pool's cache of Git: one repository per remote, a
 	// namespace per sandbox source (ADR 26-10-10-545 §2).
 	gitCache *gitcache.Store
-	// powerLocks serializes power operations per sandbox (see power.go).
+	// powerLocks holds, per sandbox, this process's half of its power lock
+	// (see powerlock.go).
 	powerLocks sync.Map
 	// powerHandover holds, per sandbox, whether its status last advertised
 	// that the control plane may hold its power (ADR 26-10-16-337 §8). A
@@ -61,6 +63,9 @@ type sandboxCore struct {
 	// booting holds the boot under way of each sandbox whose box is started
 	// and whose sandbox agent has not answered yet (see beginBoot).
 	booting sync.Map
+	// background counts the boots and snapshot builds under way in this
+	// process (AwaitBackground).
+	background handover.InFlight
 	// agentReadyTimeout bounds a boot's wait for its sandbox agent; zero is
 	// sandboxAgentReadyTimeout. Only a test sets it.
 	agentReadyTimeout time.Duration

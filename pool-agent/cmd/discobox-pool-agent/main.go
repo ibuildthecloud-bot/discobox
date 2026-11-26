@@ -36,6 +36,14 @@ func main() {
 		return
 	}
 
+	if len(os.Args) > 1 && os.Args[1] == poolagent.UnitsCommand {
+		if err := poolagent.RunUnits(ctx, logger, os.Args[2:]); err != nil {
+			logger.Error("pool units failed", "error", err)
+			os.Exit(1)
+		}
+		return
+	}
+
 	if len(os.Args) > 1 && os.Args[1] == "buildkit-mediator" {
 		if err := poolagent.RunBuildkitMediator(ctx, logger); err != nil && !errors.Is(err, context.Canceled) {
 			logger.Error("buildkit mediator failed", "error", err)

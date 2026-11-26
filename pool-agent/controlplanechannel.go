@@ -6,6 +6,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"log/slog"
+	"net"
 	"net/http"
 	"time"
 
@@ -22,23 +23,26 @@ const firstChannelWait = 3 * time.Minute
 // openControlPlaneChannel is the pool end of the control-plane channel of a
 // pool whose bootstrap says the server opens one (ADR 26-10-30-875 §§1–2),
 // serving ControlPlaneChannelSocket to the agent and the proxy unit, which
-// reach the control plane there. A pool that dials its control plane has
-// none, and gets nil.
-func openControlPlaneChannel(ctx context.Context, logger *slog.Logger, bootstrap Bootstrap, identity *Identity) (*cpchannel.Channel, error) {
+// reach the control plane there: on held, the socket systemd holds for it,
+// or else one bound here. It returns the listener it serves, which a drain
+// closes. A pool that dials its control plane has none, and gets nil.
+func openControlPlaneChannel(ctx context.Context, logger *slog.Logger, bootstrap Bootstrap, identity *Identity, held net.Listener) (*cpchannel.Channel, net.Listener, error) {
 	if !bootstrap.ControlPlaneChannel {
-		return nil, nil
+		return nil, nil, nil
 	}
 	controlPlane, err := decodeControlPlaneKey(bootstrap.ControlPlaneKey)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	channel, err := cpchannel.New(logger, identity.PrivateKey, controlPlane)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
-	listener, err := listenProxySocket(ControlPlaneChannelSocket)
-	if err != nil {
-		return nil, fmt.Errorf("listen for the control plane on %s: %w", ControlPlaneChannelSocket, err)
+	listener := held
+	if listener == nil {
+		if listener, err = listenProxySocket(ControlPlaneChannelSocket); err != nil {
+			return nil, nil, fmt.Errorf("listen for the control plane on %s: %w", ControlPlaneChannelSocket, err)
+		}
 	}
 	go func() {
 		<-ctx.Done()
@@ -49,7 +53,7 @@ func openControlPlaneChannel(ctx context.Context, logger *slog.Logger, bootstrap
 			logger.Error("control-plane socket ended", "error", err)
 		}
 	}()
-	return channel, nil
+	return channel, listener, nil
 }
 
 // awaitControlPlaneChannel waits for the server's first channel, which the

@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/discobox-ai/discobox/pool-agent/cpmux"
+	"github.com/discobox-ai/discobox/pool-agent/handover"
 )
 
 // streamWait is how long a local connection waits for a channel when there is
@@ -33,6 +34,8 @@ type Channel struct {
 	// arrived is closed when a session is installed, and replaced by a fresh
 	// one, so a waiter wakes for each new session.
 	arrived chan struct{}
+	// forwarding counts the connections being spliced onto a session.
+	forwarding handover.InFlight
 }
 
 // New is the pool end of a channel for the pool whose key is poolKey, which
@@ -100,6 +103,24 @@ func (c *Channel) install(session *cpmux.Session) {
 	}
 }
 
+// Drain closes the channel once the connections already forwarded onto it
+// have ended, or when ctx ends, whichever is first: what a draining agent does
+// once it has stopped accepting its socket (ADR 26-11-26-536 §4). The server
+// then dials a channel again, which reaches the agent that took over, the
+// only one still accepting; a draining agent's own calls to the control plane
+// reach it through the socket that agent now serves.
+func (c *Channel) Drain(ctx context.Context) {
+	if err := c.forwarding.Wait(ctx); err != nil {
+		c.logger.Warn("closing the control-plane channel with connections still on it", "error", err)
+	}
+	c.mu.Lock()
+	session := c.session
+	c.mu.Unlock()
+	if session != nil {
+		_ = session.Close()
+	}
+}
+
 // Wait returns once a channel is open, or when ctx ends.
 func (c *Channel) Wait(ctx context.Context) error {
 	_, err := c.current(ctx)
@@ -141,6 +162,7 @@ func (c *Channel) Serve(ctx context.Context, listener net.Listener) error {
 }
 
 func (c *Channel) forward(ctx context.Context, conn net.Conn) {
+	defer c.forwarding.Begin()()
 	defer func() { _ = conn.Close() }()
 	wait, cancel := context.WithTimeout(ctx, streamWait)
 	session, err := c.current(wait)

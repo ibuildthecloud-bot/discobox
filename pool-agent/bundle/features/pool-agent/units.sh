@@ -1,16 +1,11 @@
 #!/bin/sh
-# A new agent binary under the stable link reaches what runs it only once it
-# restarts: this step's digest moves with the binary (its inputs), so a new
-# bundle restarts the agent and its proxy, and the same one restarts nothing.
-# The first run finds neither running, and leaves their start to the units
-# step after it.
+# Has the box run the agent and proxy of this bundle and of the bootstrap
+# placed beside it (pool-agent/poolunits): renders the sockets systemd holds
+# for the pool, and restarts the running slot, or hands over to the other
+# when the pool asks it to, once what they start with moved. This step's
+# digest moves with the binary and the units (its inputs). A placement that
+# moved alone is the maker's, which runs the same command after the apply.
 set -eu
 
 [ -d /run/systemd/system ] || exit 0
-systemctl try-restart discobox-pool-agent.service discobox-proxy.service
-
-# The mediator runs the same binary. Restart it only after egress has returned:
-# its build drain must never join the agent/proxy restart transaction.
-if systemctl is-active --quiet discobox-buildkit-mediator.service; then
-  systemctl try-restart discobox-buildkit-mediator.service
-fi
+exec /usr/local/bin/discobox-pool-agent units apply
